@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio Rebuild (Example Style)
 
-## Getting Started
+This project is a React/Next.js implementation of a premium digital agency portfolio, featuring dynamic client-side filtering, smooth scrolling with Lenis, and complex scroll-based Framer Motion animations.
 
-First, run the development server:
+## Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework:** Next.js (App Router)
+- **Styling:** Tailwind CSS (v4)
+- **Animation:** Framer Motion
+- **Scrolling:** Lenis Smooth Scroll
+- **Language:** TypeScript
+
+## Managing Content
+
+All dummy data and placeholder content is managed centrally in `src/config/content.ts`.
+
+### Adding New Work Items
+
+To add a new work case study, open `src/config/content.ts` and locate the `workItems` array. Add a new object following the `WorkItem` type structure:
+
+```typescript
+{
+  id: 'unique-id',
+  slug: 'url-friendly-slug',
+  title: 'Project Title',
+  client: 'Client Name',
+  industry: 'Technology',
+  service: 'Digital Strategy',
+  featuredImage: 'https://...', // URL or relative path
+  labels: ['Strategy', 'Design'],
+  summary: 'A short summary.',
+  content: ['Paragraph 1', 'Paragraph 2'],
+  isComingSoon: false, // If true, it won't be clickable or generate a detail page
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Section Registry Architecture
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This application uses a centralized section registry to control the visibility of major UI blocks. This guarantees that any section can be turned off instantly without breaking the layout.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### How to Toggle a Section
 
-## Learn More
+1. Open `src/config/sections.ts`.
+2. Locate the specific section ID in the `globalSections` or `pageSections` object.
+3. Change the `enabled` boolean.
 
-To learn more about Next.js, take a look at the following resources:
+**Example: Removing the "Newsletter" block from the Home page**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```typescript
+// Inside src/config/sections.ts
+export const pageSections: Record<string, SectionConfig> = {
+  // ...
+  'home.newsletterEtcetera': { id: 'home.newsletterEtcetera', enabled: false }, // Changed to false
+  // ...
+};
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+That's it. The `<SectionWrapper>` component will automatically handle the visibility logic and prevent the component from rendering.
 
-## Deploy on Vercel
+## Running Locally
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. `npm install`
+2. `npm run dev`
+3. Visit `http://localhost:3000`
