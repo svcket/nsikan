@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
 import { allProjectsQuery } from '@/sanity/lib/queries';
 import { urlFor } from '@/sanity/lib/image';
+import { projects as LOCAL_PROJECTS } from '@/config/projects';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -64,9 +65,15 @@ export default function ProjectsSection() {
           return aIndex - bIndex;
         });
 
-        setProjects(sortedData);
+        if (sortedData.length > 0) {
+          setProjects(sortedData);
+        } else {
+          console.warn('Sanity returned no projects, falling back to local config');
+          setProjects(LOCAL_PROJECTS);
+        }
       } catch (error) {
-        console.error('Error fetching projects:', error);
+        console.error('Error fetching projects, falling back to local config:', error);
+        setProjects(LOCAL_PROJECTS);
       } finally {
         setLoading(false);
       }
