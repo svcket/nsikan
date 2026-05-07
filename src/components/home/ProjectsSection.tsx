@@ -32,9 +32,9 @@ export default function ProjectsSection() {
   const splitStageRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<any[]>(LOCAL_PROJECTS);
   const [activeProject, setActiveProject] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function fetchProjects() {
@@ -179,7 +179,7 @@ export default function ProjectsSection() {
     <section 
       id="projects"
       ref={containerRef} 
-      className="relative bg-black text-white w-full overflow-visible border-t border-white/5"
+      className="relative bg-black text-white w-full overflow-visible border-t-[10px] border-yellow-500"
       style={{ height: totalScroll }}
     >
       {/* DESKTOP VIEW (STICKY / GSAP) */}
