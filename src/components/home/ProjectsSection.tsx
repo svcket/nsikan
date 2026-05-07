@@ -177,7 +177,8 @@ export default function ProjectsSection() {
     <section 
       id="projects"
       ref={containerRef} 
-      className="relative bg-black text-white w-full min-h-screen overflow-visible"
+      className="relative bg-black text-white w-full overflow-visible border-t border-white/5"
+      style={{ height: 8000 }}
     >
       {/* DESKTOP VIEW (STICKY / GSAP) */}
       <div className="hidden md:block w-full h-screen overflow-hidden sticky top-0">
