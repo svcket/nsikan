@@ -1,28 +1,15 @@
 'use client';
 
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import Link from 'next/link';
+import { client } from '@/sanity/lib/client';
+import { allProjectsQuery } from '@/sanity/lib/queries';
+import { urlFor } from '@/sanity/lib/image';
 
 gsap.registerPlugin(ScrollTrigger);
-
-const projects = [
-  { slug: "ping", title: "Ping - Formerly Gamic", description: "A Web3 social experience designed to simplify communities, chats, and digital interaction.", caseStudyHref: "#", liveSiteHref: "#", type: "mobile" },
-  { slug: "torq", title: "Torq", description: "We are defining the strategy for Addmind’s new Dubai Harbour F&B precinct and building the place.", caseStudyHref: "#", liveSiteHref: "#", type: "web" },
-  { slug: "breedjr", title: "Breedjr", description: "A dedicated platform for livestock management and agricultural innovation.", caseStudyHref: "#", liveSiteHref: "#", type: "web" },
-  { slug: "isang", title: "Isang", description: "A premium hospitality and lifestyle experience designed for the modern traveler.", caseStudyHref: "#", liveSiteHref: "#", type: "web" },
-  { slug: "masomo-ai", title: "Masomo AI", description: "Revolutionizing education through personalized AI-driven learning journeys.", caseStudyHref: "#", liveSiteHref: "#", type: "mobile" },
-  { slug: "lecoindine", title: "Lécoindine", description: "Curated dining experiences and culinary storytelling for the refined palate.", caseStudyHref: "#", liveSiteHref: "#", type: "mobile" },
-  { slug: "siroma", title: "Siroma", description: "Innovative workspace solutions for the next generation of creative teams.", caseStudyHref: "#", liveSiteHref: "#", type: "mobile" },
-  { slug: "lstnr", title: "Lstnr", description: "An immersive audio platform for discovering and sharing unique soundscapes.", caseStudyHref: "#", liveSiteHref: "#", type: "mobile" },
-  { slug: "plugin", title: "Plugin", description: "The essential bridge between digital tools and creative workflows.", caseStudyHref: "#", liveSiteHref: "#", type: "mobile" },
-  { slug: "esbabi", title: "'esbabi", description: "A heritage-focused brand identity project celebrating traditional craftsmanship.", caseStudyHref: "#", liveSiteHref: "#", type: "mobile" },
-  { slug: "pumpy-family", title: "Pumpy Family", description: "Building a vibrant community around shared values and collective growth.", caseStudyHref: "#", liveSiteHref: "#", type: "web" },
-  { slug: "baird", title: "Baird", description: "Sophisticated financial management tools for established institutions.", caseStudyHref: "#", liveSiteHref: "#", type: "mobile" },
-  { slug: "your-work-buddy", title: "Your Work Buddy", description: "A dedicated companion for professional productivity and focus management.", caseStudyHref: "#", liveSiteHref: "#", type: "web" },
-  { slug: "send-me", title: "Send Me", description: "Redefining logistics and personal delivery services with absolute precision.", caseStudyHref: "#", liveSiteHref: "#", type: "mobile" },
-];
 
 const SLOTS = {
   mobile: {
@@ -42,17 +29,60 @@ export default function ProjectsSection() {
   const introRef = useRef<HTMLDivElement>(null);
   const heroPlaceholderRef = useRef<HTMLDivElement>(null);
   const splitStageRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const cardRefs = useRef<(HTMLElement | null)[]>([]);
   
+  const [projects, setProjects] = useState<any[]>([]);
   const [activeProject, setActiveProject] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        const data = await client.fetch(allProjectsQuery);
+        
+        // Specific arrangement requested by user
+        const projectOrder = [
+          'torq',
+          'breedjr',
+          // 'isang', // ignore for now
+          'ping',
+          'masomo',
+          'lecoindine',
+          'lstnr',
+          'plugin',
+          'esbabi'
+        ];
+
+        const sortedData = data.sort((a: any, b: any) => {
+          const aIndex = projectOrder.indexOf(a.slug);
+          const bIndex = projectOrder.indexOf(b.slug);
+          
+          if (aIndex === -1 && bIndex === -1) return 0;
+          if (aIndex === -1) return 1;
+          if (bIndex === -1) return -1;
+          
+          return aIndex - bIndex;
+        });
+
+        setProjects(sortedData);
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProjects();
+  }, []);
 
   useLayoutEffect(() => {
+    if (loading || projects.length === 0) return;
+
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
       mm.add("(min-width: 769px)", () => {
-        const totalScroll = 12000;
-        const introDuration = 0.5;
+        const totalScroll = 8000;
+        const introDuration = 0.15;
         const projectDuration = 1.0;
 
         const master = gsap.timeline({
@@ -68,12 +98,12 @@ export default function ProjectsSection() {
         // --- INITIAL STATE ---
         gsap.set(splitStageRef.current, { opacity: 0, visibility: "visible" });
         cardRefs.current.forEach((card, i) => {
-          if (!card) return;
-          const type = projects[i].type as 'mobile' | 'web';
+          if (!card || !projects[i]) return;
+          const layout = (projects[i].layout || 'web') as 'mobile' | 'web';
           if (i === 0) {
-             gsap.set(card, { ...SLOTS[type].focus, opacity: 1, visibility: "visible" });
+             gsap.set(card, { ...SLOTS[layout].focus, opacity: 1, visibility: "visible" });
           } else {
-             gsap.set(card, { ...SLOTS[type].enterBottom, opacity: 0, visibility: "visible" });
+             gsap.set(card, { ...SLOTS[layout].enterBottom, opacity: 0, visibility: "visible" });
           }
         });
 
@@ -87,18 +117,18 @@ export default function ProjectsSection() {
           const card = cardRefs.current[i];
           if (!card) return;
 
-          const type = project.type as 'mobile' | 'web';
+          const layout = (project.layout || 'web') as 'mobile' | 'web';
           const focusTime = introDuration + (i * projectDuration);
           const startTime = focusTime - projectDuration;
 
           if (i < projects.length - 1) {
-            master.to(card, { ...SLOTS[type].exitTop, opacity: 0, duration: projectDuration, ease: "none" }, focusTime);
+            master.to(card, { ...SLOTS[layout].exitTop, opacity: 0, duration: projectDuration, ease: "none" }, focusTime);
           }
 
           if (i > 0) {
             master.fromTo(card, 
-              { ...SLOTS[type].enterBottom, opacity: 0 },
-              { ...SLOTS[type].focus, opacity: 1, duration: projectDuration, ease: "none" },
+              { ...SLOTS[layout].enterBottom, opacity: 0 },
+              { ...SLOTS[layout].focus, opacity: 1, duration: projectDuration, ease: "none" },
               startTime
             );
           }
@@ -124,23 +154,26 @@ export default function ProjectsSection() {
     }, containerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [loading, projects]);
+
+  if (loading || projects.length === 0) return null;
 
   const active = projects[activeProject];
 
   return (
     <section 
+      id="projects"
       ref={containerRef} 
       className="relative bg-black text-white w-full min-h-screen overflow-visible"
     >
       {/* DESKTOP VIEW (STICKY / GSAP) */}
       <div className="hidden md:block w-full h-screen overflow-hidden sticky top-0">
         {/* PHASE 1: INTRO */}
-        <div ref={introRef} className="absolute inset-0 flex flex-col items-center pt-[10vh] z-50 pointer-events-none">
-          <h2 className="font-serif italic text-[72px] leading-[1.2] text-white text-center mb-16">
+        <div ref={introRef} className="absolute inset-0 flex flex-col items-center justify-center z-50 pointer-events-none">
+          <h2 className="font-serif italic text-[72px] leading-[1.2] text-white text-center">
             Projects and<br />Collaborations
           </h2>
-          <div ref={heroPlaceholderRef} className="w-[1200px] h-[780px] bg-[#050505] border border-white/10" />
+          {/* <div ref={heroPlaceholderRef} className="w-[1200px] h-[780px] bg-[#050505] border border-white/10" /> */}
         </div>
 
         {/* PHASE 2: SHOWCASE */}
@@ -149,20 +182,31 @@ export default function ProjectsSection() {
           {/* LEFT COLUMN */}
           <div className="w-[40%] flex flex-col justify-center pointer-events-auto">
             <div key={activeProject} className="animate-in fade-in slide-in-from-bottom-2 duration-700">
+              <div className="flex flex-wrap gap-2 mb-4">
+                {active.tags?.map((tag: string) => (
+                  <span key={tag} className="text-[11px] tracking-widest uppercase opacity-40 font-sans px-2 py-1 border border-white/10 rounded-none">
+                    {tag}
+                  </span>
+                ))}
+              </div>
               <h3 className="font-serif italic text-[48px] leading-[1.1] text-white font-normal mb-8 whitespace-nowrap">
                 {active.title}
               </h3>
               <p className="text-[18px] leading-[1.6] text-white/60 font-sans mb-10 max-w-[420px]">
-                {active.description}
+                {active.heroDescription}
               </p>
               <div className="flex items-center gap-6 text-[13px] tracking-[0.08em] uppercase font-sans font-medium">
-                <a href={active.caseStudyHref} className="flex items-center gap-2 hover:text-white transition-colors">
+                <Link href={`/projects/${active.slug}`} className="flex items-center gap-2 hover:text-white transition-colors">
                   Read Case Study <ArrowRight size={16} />
-                </a>
-                <span className="text-white/20">|</span>
-                <a href={active.liveSiteHref} className="flex items-center gap-2 text-[#FF6A5E] hover:opacity-80 transition-opacity">
-                  View Live Site <ArrowUpRight size={16} />
-                </a>
+                </Link>
+                {active.liveSiteHref && (
+                  <>
+                    <span className="text-white/20">|</span>
+                    <a href={active.liveSiteHref} className="flex items-center gap-2 text-[#A8E06C] hover:opacity-80 transition-opacity">
+                      View Live Site <ArrowUpRight size={16} />
+                    </a>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -173,16 +217,45 @@ export default function ProjectsSection() {
               <article 
                 key={`${project.slug}-${i}`}
                 ref={el => { cardRefs.current[i] = el; }}
-                className={`absolute border border-white/12 bg-white/[0.015] will-change-transform overflow-hidden ${
-                   project.type === 'mobile' ? 'w-[340px] h-[680px]' : 'w-[840px] h-[520px]'
+                className={`absolute bg-[#050505] will-change-transform overflow-hidden ${
+                   project.layout === 'mobile' ? 'w-[340px] h-auto' : 'w-[840px] h-auto'
                 }`}
                 style={{ 
                   boxShadow: '0 40px 100px -30px rgba(0, 0, 0, 0.9)',
-                  borderRadius: project.type === 'mobile' ? '40px' : '16px',
+                  borderRadius: '0px',
                 }}
               >
-                <div className="w-full h-full flex items-center justify-center p-4">
-                  <div className="w-full h-full border border-white/5 opacity-10 rounded-[inherit] overflow-hidden" />
+                <div className="w-full relative">
+                   {project.heroVisual?.video?.asset?.url ? (
+                      <video 
+                        src={project.heroVisual.video.asset.url} 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline 
+                        className="w-full h-auto block object-cover" 
+                      />
+                   ) : project.heroVisual?.image ? (
+                      <img 
+                        src={urlFor(project.heroVisual.image).url()} 
+                        alt="" 
+                        className="w-full h-auto block object-cover" 
+                      />
+                   ) : project.discoveryVisual ? (
+                      <img 
+                        src={urlFor(project.discoveryVisual).url()} 
+                        alt="" 
+                        className="w-full h-auto block object-cover" 
+                      />
+                   ) : project.icon ? (
+                      <div className="w-full aspect-video flex items-center justify-center p-12">
+                        <img 
+                          src={urlFor(project.icon).url()} 
+                          alt="" 
+                          className="w-32 h-32 object-contain opacity-20 grayscale" 
+                        />
+                      </div>
+                   ) : null}
                 </div>
               </article>
             ))}
@@ -191,7 +264,7 @@ export default function ProjectsSection() {
       </div>
 
       {/* MOBILE VIEW (STANDARD SCROLL LIST) */}
-      <div className="md:hidden w-full flex flex-col pt-24 pb-24 px-4 space-y-32">
+      <div className="md:hidden w-full flex flex-col pt-24 px-4 space-y-32">
         <h2 className="font-serif italic text-[44px] leading-[1.2] text-white mb-12 text-center">
           Projects and Collaborations
         </h2>
@@ -200,31 +273,71 @@ export default function ProjectsSection() {
           <div key={i} className="flex flex-col space-y-10">
             {/* Visual First */}
             <div 
-              className={`relative border border-white/12 bg-white/[0.015] overflow-hidden mx-auto ${
-                project.type === 'mobile' ? 'w-[280px] h-[560px] rounded-[32px]' : 'w-full aspect-[16/10] rounded-[12px]'
+              className={`relative bg-[#050505] overflow-hidden mx-auto rounded-none ${
+                project.layout === 'mobile' ? 'w-[280px] h-auto' : 'w-full h-auto'
               }`}
             >
-              <div className="w-full h-full flex items-center justify-center p-4">
-                <div className="w-full h-full border border-white/5 opacity-10 rounded-[inherit] overflow-hidden" />
+              <div className="w-full relative">
+                 {project.heroVisual?.video?.asset?.url ? (
+                    <video 
+                      src={project.heroVisual.video.asset.url} 
+                      autoPlay 
+                      loop 
+                      muted 
+                      playsInline 
+                      className="w-full h-auto block object-cover" 
+                    />
+                 ) : project.heroVisual?.image ? (
+                    <img 
+                      src={urlFor(project.heroVisual.image).url()} 
+                      alt="" 
+                      className="w-full h-auto block object-cover" 
+                    />
+                 ) : project.discoveryVisual ? (
+                    <img 
+                      src={urlFor(project.discoveryVisual).url()} 
+                      alt="" 
+                      className="w-full h-auto block object-cover" 
+                    />
+                 ) : project.icon ? (
+                    <div className="w-full aspect-video flex items-center justify-center p-8">
+                      <img 
+                        src={urlFor(project.icon).url()} 
+                        alt="" 
+                        className="w-20 h-20 object-contain opacity-20 grayscale" 
+                      />
+                    </div>
+                 ) : null}
               </div>
             </div>
             
             {/* Info Beneath */}
             <div className="flex flex-col">
+              <div className="flex flex-wrap gap-2 mb-4">
+                {project.tags?.map((tag: string) => (
+                  <span key={tag} className="text-[10px] tracking-widest uppercase opacity-40 font-sans px-2 py-1 border border-white/10 rounded-none">
+                    {tag}
+                  </span>
+                ))}
+              </div>
               <h3 className="font-serif italic text-[32px] leading-[1.1] text-white mb-4">
                 {project.title}
               </h3>
               <p className="text-[16px] leading-[1.6] text-white/60 font-sans mb-6">
-                {project.description}
+                {project.heroDescription}
               </p>
               <div className="flex items-center gap-6 text-[12px] tracking-[0.08em] uppercase font-sans font-medium">
-                <a href={project.caseStudyHref} className="flex items-center gap-2 hover:text-white transition-colors">
+                <Link href={`/projects/${project.slug}`} className="flex items-center gap-2 hover:text-white transition-colors">
                   Read Case Study <ArrowRight size={14} />
-                </a>
-                <span className="text-white/20">|</span>
-                <a href={project.liveSiteHref} className="flex items-center gap-2 text-[#FF6A5E] hover:opacity-80 transition-opacity">
-                  View Live Site <ArrowUpRight size={14} />
-                </a>
+                </Link>
+                {project.liveSiteHref && (
+                  <>
+                    <span className="text-white/20">|</span>
+                    <a href={project.liveSiteHref} className="flex items-center gap-2 text-[#A8E06C] hover:opacity-80 transition-opacity">
+                      View Live Site <ArrowUpRight size={14} />
+                    </a>
+                  </>
+                )}
               </div>
             </div>
           </div>

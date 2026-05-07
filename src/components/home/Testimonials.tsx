@@ -46,13 +46,13 @@ export default function Testimonials() {
 
   // Expansion animation: inset panel -> full width/height
   const width = useTransform(scrollYProgress, [0.1, 0.3], ["85%", "100%"]);
-  const borderRadius = useTransform(scrollYProgress, [0.1, 0.3], ["12px", "0px"]);
+  const borderRadius = useTransform(scrollYProgress, [0.1, 0.3], ["0px", "0px"]);
   
   const quoteStyle = {
     fontFamily: '"Times New Roman", Times, serif',
     fontSize: '250px',
     lineHeight: '1',
-    color: '#FF756C', // Coral/Pink accent
+    color: '#A8E06C', // Lime green accent
   };
 
   return (

@@ -50,7 +50,7 @@ export default function HeroCarousel({ stage = 'ready' }: HeroCarouselProps) {
     [0, 0, -80, -80, -400]
   ); 
   
-  const mediaBorderRadius = useTransform(smoothProgress, [0.1, 0.6], ['12px', '0px']);
+  const mediaBorderRadius = useTransform(smoothProgress, [0.1, 0.6], ['0px', '0px']);
 
   return (
     <div 
@@ -113,12 +113,15 @@ export default function HeroCarousel({ stage = 'ready' }: HeroCarouselProps) {
             initial={{ opacity: 1 }}
             animate={showContent ? { opacity: 1 } : {}}
             transition={{ duration: 1.6, ease: [0.76, 0, 0.24, 1], delay: 0.6 }}
-            className="relative overflow-hidden bg-[#1A1A1A] border border-white/5 shadow-2xl"
+            className="relative overflow-hidden bg-transparent"
           >
-            <img 
-              src="/assets/proejct card tallest height.png" 
-              alt="Project Showcase" 
-              className="w-full h-full object-cover"
+            <video 
+              src="/assets/main shit.mov" 
+              autoPlay 
+              loop 
+              muted 
+              playsInline 
+              className="w-full h-full object-contain"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
           </motion.div>

@@ -3,17 +3,22 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { useLenis } from 'lenis/react';
+import Link from 'next/link';
 
 interface NavigationProps {
   stage: 'preloading' | 'transitioning' | 'ready';
 }
 
 export default function Navigation({ stage }: NavigationProps) {
+  const lenis = useLenis();
   const showNav = stage === 'transitioning' || stage === 'ready';
   const [isLightBackground, setIsLightBackground] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
+    setHasMounted(true);
     const handleScroll = () => {
       const sections = document.querySelectorAll('[data-nav-theme]');
       let activeTheme = 'dark';
@@ -36,9 +41,33 @@ export default function Navigation({ stage }: NavigationProps) {
   }, []);
 
   const navLinks = [
-    { name: 'PROJECTS', href: '#' },
-    { name: 'CONTACT', href: '#' },
+    { name: 'PROJECTS', href: '/#projects' },
+    { name: 'CONTACT', href: '/#footer' },
   ];
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const isHomePage = window.location.pathname === '/';
+    const isAnchor = href.startsWith('/#');
+
+    if (isHomePage && (href === '/' || href === '/#')) {
+      e.preventDefault();
+      lenis?.scrollTo(0);
+      setIsMobileMenuOpen(false);
+      return;
+    }
+
+    if (isAnchor && isHomePage) {
+      e.preventDefault();
+      const targetId = href.split('#')[1];
+      const targetElement = document.getElementById(targetId);
+      
+      if (targetElement) {
+        lenis?.scrollTo(`#${targetId}`, { offset: 0, duration: 2 });
+      }
+    }
+    
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <>
@@ -46,25 +75,30 @@ export default function Navigation({ stage }: NavigationProps) {
         
         {/* Left: Brand Mark */}
         <div className="flex items-center pointer-events-auto">
-          {showNav && (
-            <motion.a 
-              href="/"
+          {showNav && hasMounted && (
+            <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               className="flex items-center"
             >
-              <div className="h-[32px] md:h-[32px] flex items-center">
-                <img 
-                  src={isLightBackground 
-                    ? "/assets/landing page logo - black text.png" 
-                    : "/assets/landing page logo - white text.png"
-                  } 
-                  alt="Nsikan Etukudoh" 
-                  className="h-full w-auto block select-none transition-opacity duration-300"
-                  style={{ maxWidth: 'none' }}
-                />
-              </div>
-            </motion.a>
+              <Link
+                href="/"
+                className="flex items-center"
+                onClick={(e) => handleNavClick(e, '/')}
+              >
+                <div className="h-[32px] md:h-[32px] flex items-center">
+                  <img 
+                    src={hasMounted && isLightBackground 
+                      ? "/assets/landing page logo - black text.png" 
+                      : "/assets/landing page logo - white text.png"
+                    } 
+                    alt="Nsikan Etukudoh" 
+                    className="h-full w-auto block select-none transition-opacity duration-300"
+                    style={{ maxWidth: 'none' }}
+                  />
+                </div>
+              </Link>
+            </motion.div>
           )}
         </div>
 
@@ -84,6 +118,7 @@ export default function Navigation({ stage }: NavigationProps) {
                 delay: 0.8 + i * 0.1,
               }}
               className="hover:opacity-50 transition-opacity"
+              onClick={(e) => handleNavClick(e, item.href)}
             >
               {item.name}
             </motion.a>
@@ -92,7 +127,7 @@ export default function Navigation({ stage }: NavigationProps) {
 
         {/* Mobile Hamburger */}
         <div className="md:hidden pointer-events-auto">
-          {showNav && (
+          {showNav && hasMounted && (
             <motion.button
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
