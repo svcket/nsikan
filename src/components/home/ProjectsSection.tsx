@@ -156,9 +156,15 @@ export default function ProjectsSection() {
     return () => ctx.revert();
   }, [loading, projects]);
 
-  if (loading || projects.length === 0) return null;
+  if (loading && projects.length === 0) {
+    return (
+      <section id="projects" className="h-screen bg-[#050505] flex items-center justify-center text-white/10 uppercase tracking-[0.2em] text-[10px]">
+        Loading Index...
+      </section>
+    );
+  }
 
-  const active = projects[activeProject];
+  const active = projects[activeProject] || { title: 'Loading...', description: '...', slug: '' };
 
   return (
     <section 
