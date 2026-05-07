@@ -26,11 +26,6 @@ const SLOTS = {
 };
 
 export default function ProjectsSection() {
-  return (
-    <div className="h-screen w-full bg-red-600 flex items-center justify-center text-white z-[9999] relative border-4 border-white">
-      <h1 className="text-6xl font-bold">EMERGENCY RENDER TEST</h1>
-    </div>
-  );
   const containerRef = useRef<HTMLElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
   const heroPlaceholderRef = useRef<HTMLDivElement>(null);
@@ -178,12 +173,14 @@ export default function ProjectsSection() {
 
   const active = projects[activeProject] || { title: 'Loading...', description: '...', slug: '' };
 
+  const totalScroll = 2000 + (projects.length * 1000);
+
   return (
     <section 
       id="projects"
       ref={containerRef} 
       className="relative bg-black text-white w-full overflow-visible border-t border-white/5"
-      style={{ height: 8000 }}
+      style={{ height: totalScroll }}
     >
       {/* DESKTOP VIEW (STICKY / GSAP) */}
       <div className="hidden md:block w-full h-screen overflow-hidden sticky top-0">

@@ -70,16 +70,10 @@ export default function HomePage() {
           
           <Navigation stage={stage} />
           
-          <ProjectsSection />
-
           {/* Landing Hero Section - Focused Refinement */}
           <section data-nav-theme="dark" className="relative w-full bg-black overflow-visible">
             <HeroCarousel stage={stage} />
           </section>
-
-          <div className="bg-red-500 text-white p-2 text-center z-[9999] relative font-mono text-[10px] uppercase tracking-widest">
-            DEBUG: PROJECT SECTION ANCHOR
-          </div>
 
           {/* Projects and Collaborations Section - Sequential Scroll Interaction */}
           <ProjectsSection />
