@@ -26,6 +26,11 @@ const SLOTS = {
 };
 
 export default function ProjectsSection() {
+  return (
+    <div className="h-screen w-full bg-red-600 flex items-center justify-center text-white z-[9999] relative border-4 border-white">
+      <h1 className="text-6xl font-bold">EMERGENCY RENDER TEST</h1>
+    </div>
+  );
   const containerRef = useRef<HTMLElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
   const heroPlaceholderRef = useRef<HTMLDivElement>(null);

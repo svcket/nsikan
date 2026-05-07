@@ -70,6 +70,8 @@ export default function HomePage() {
           
           <Navigation stage={stage} />
           
+          <ProjectsSection />
+
           {/* Landing Hero Section - Focused Refinement */}
           <section data-nav-theme="dark" className="relative w-full bg-black overflow-visible">
             <HeroCarousel stage={stage} />
