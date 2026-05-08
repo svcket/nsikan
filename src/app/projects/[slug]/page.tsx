@@ -123,7 +123,7 @@ export default function ProjectPage() {
               <div className="w-32 h-32 mx-auto flex items-center justify-center overflow-hidden">
                 {project.icon ? (
                   <Image 
-                    src={urlFor(project.icon).url()} 
+                    src={project.icon.url || urlFor(project.icon).url()} 
                     alt={project.title} 
                     width={128} 
                     height={128} 

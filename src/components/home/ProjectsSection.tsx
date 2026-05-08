@@ -4,7 +4,7 @@ import React, { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { urlFor } from '@/sanity/lib/image';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -29,9 +29,11 @@ export default function ProjectsSection() {
   const splitStageRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   
+  const router = useRouter();
   const [projects, setProjects] = useState<any[]>([]);
   const [activeProject, setActiveProject] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [navigatingTo, setNavigatingTo] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -215,9 +217,16 @@ export default function ProjectsSection() {
                   {active.heroDescription}
                 </p>
                 <div className="flex items-center gap-6 text-[13px] tracking-[0.08em] uppercase font-sans font-medium">
-                  <Link href={`/projects/${active.slug}`} className="flex items-center gap-2 hover:text-white transition-colors">
-                    Read Case Study <ArrowRight size={16} />
-                  </Link>
+                  <button 
+                    onClick={() => {
+                      setNavigatingTo(active.slug);
+                      router.push(`/projects/${active.slug}`);
+                    }}
+                    disabled={navigatingTo === active.slug}
+                    className="flex items-center gap-2 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-wait"
+                  >
+                    {navigatingTo === active.slug ? "Opening Case Study..." : "Read Case Study"} <ArrowRight size={16} />
+                  </button>
                   {active.liveSiteHref && (
                     <>
                       <span className="text-white/20">|</span>
@@ -353,9 +362,16 @@ export default function ProjectsSection() {
                 {project.heroDescription}
               </p>
               <div className="flex items-center gap-6 text-[12px] tracking-[0.08em] uppercase font-sans font-medium">
-                <Link href={`/projects/${project.slug}`} className="flex items-center gap-2 hover:text-white transition-colors">
-                  Read Case Study <ArrowRight size={14} />
-                </Link>
+                <button 
+                  onClick={() => {
+                    setNavigatingTo(project.slug);
+                    router.push(`/projects/${project.slug}`);
+                  }}
+                  disabled={navigatingTo === project.slug}
+                  className="flex items-center gap-2 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-wait"
+                >
+                  {navigatingTo === project.slug ? "Opening..." : "Read Case Study"} <ArrowRight size={14} />
+                </button>
                 {project.liveSiteHref && (
                   <>
                     <span className="text-white/20">|</span>
