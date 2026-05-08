@@ -183,14 +183,12 @@ export default function ProjectsSection() {
 
   const active = projects[activeProject] || { title: 'Loading...', description: '...', slug: '' };
 
-  const totalScroll = 2000 + (projects.length * 1000);
-
   return (
     <section 
       id="projects"
       ref={containerRef} 
-      className="relative bg-black text-white w-full overflow-visible border-t-[10px] border-yellow-500"
-      style={{ height: totalScroll }}
+      className="relative bg-black text-white w-full overflow-visible border-t-[20px] border-[#FF00FF]"
+      style={{ height: '5000px', minHeight: '5000px' }}
     >
       {/* DESKTOP VIEW (STICKY / GSAP) */}
       <div className="hidden md:block w-full h-screen overflow-hidden sticky top-0">
