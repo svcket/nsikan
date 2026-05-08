@@ -236,7 +236,9 @@ export const projects: Project[] = [
     description: "We are defining the strategy for Addmind’s new Dubai Harbour F&B precinct and building the place.", 
     caseStudyHref: "#", 
     liveSiteHref: "#", 
-    type: "web" 
+    type: "web",
+    icon: "/assets/ping-logo.png",
+    tags: ["Strategy", "Construction", "F&B"]
   },
   { 
     slug: "breedjr", 
@@ -244,7 +246,9 @@ export const projects: Project[] = [
     description: "A dedicated platform for livestock management and agricultural innovation.", 
     caseStudyHref: "#", 
     liveSiteHref: "#", 
-    type: "web" 
+    type: "web",
+    icon: "/assets/ping-logo.png",
+    tags: ["Agri-Tech", "Product Design"]
   },
   { 
     slug: "isang", 
