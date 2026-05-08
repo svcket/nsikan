@@ -171,6 +171,16 @@ export default function ProjectsSection() {
     );
   }
 
+  const getImageUrl = (source: any) => {
+    if (!source) return '';
+    if (typeof source === 'string' && source.startsWith('/assets/')) return source;
+    try {
+      return urlFor(source).url();
+    } catch (e) {
+      return '';
+    }
+  };
+
   const active = projects[activeProject] || { title: 'Loading...', description: '...', slug: '' };
 
   const totalScroll = 2000 + (projects.length * 1000);
@@ -253,20 +263,20 @@ export default function ProjectsSection() {
                       />
                    ) : project.heroVisual?.image ? (
                       <img 
-                        src={urlFor(project.heroVisual.image).url()} 
+                        src={getImageUrl(project.heroVisual.image)} 
                         alt="" 
                         className="w-full h-auto block object-cover" 
                       />
                    ) : project.discoveryVisual ? (
                       <img 
-                        src={urlFor(project.discoveryVisual).url()} 
+                        src={getImageUrl(project.discoveryVisual)} 
                         alt="" 
                         className="w-full h-auto block object-cover" 
                       />
                    ) : project.icon ? (
                       <div className="w-full aspect-video flex items-center justify-center p-12">
                         <img 
-                          src={urlFor(project.icon).url()} 
+                          src={getImageUrl(project.icon)} 
                           alt="" 
                           className="w-32 h-32 object-contain opacity-20 grayscale" 
                         />
@@ -305,59 +315,59 @@ export default function ProjectsSection() {
                     />
                  ) : project.heroVisual?.image ? (
                     <img 
-                      src={urlFor(project.heroVisual.image).url()} 
+                      src={getImageUrl(project.heroVisual.image)} 
                       alt="" 
                       className="w-full h-auto block object-cover" 
                     />
                  ) : project.discoveryVisual ? (
                     <img 
-                      src={urlFor(project.discoveryVisual).url()} 
+                      src={getImageUrl(project.discoveryVisual)} 
                       alt="" 
                       className="w-full h-auto block object-cover" 
                     />
                  ) : project.icon ? (
-                    <div className="w-full aspect-video flex items-center justify-center p-8">
+                    <div className="w-full aspect-video flex items-center justify-center p-12">
                       <img 
-                        src={urlFor(project.icon).url()} 
+                        src={getImageUrl(project.icon)} 
                         alt="" 
-                        className="w-20 h-20 object-contain opacity-20 grayscale" 
+                        className="w-32 h-32 object-contain opacity-20 grayscale" 
                       />
                     </div>
                  ) : null}
               </div>
             </div>
             
-            {/* Info Beneath */}
-            <div className="flex flex-col">
-              <div className="flex flex-wrap gap-2 mb-4">
+            {/* Info Below */}
+            <div className="text-center px-4">
+              <div className="flex flex-wrap justify-center gap-2 mb-6">
                 {project.tags?.map((tag: string) => (
-                  <span key={tag} className="text-[10px] tracking-widest uppercase opacity-40 font-sans px-2 py-1 border border-white/10 rounded-none">
+                  <span key={tag} className="text-[10px] tracking-widest uppercase opacity-40 font-sans px-2 py-1 border border-white/10">
                     {tag}
                   </span>
                 ))}
               </div>
-              <h3 className="font-serif italic text-[32px] leading-[1.1] text-white mb-4">
+              <h3 className="font-serif italic text-[36px] leading-[1.1] text-white mb-6">
                 {project.title}
               </h3>
-              <p className="text-[16px] leading-[1.6] text-white/60 font-sans mb-6">
+              <p className="text-[16px] leading-[1.6] text-white/50 font-sans mb-10 mx-auto max-w-[320px]">
                 {project.heroDescription}
               </p>
-              <div className="flex items-center gap-6 text-[12px] tracking-[0.08em] uppercase font-sans font-medium">
-                <Link href={`/projects/${project.slug}`} className="flex items-center gap-2 hover:text-white transition-colors">
+              
+              <div className="flex flex-col items-center gap-6 text-[12px] tracking-[0.1em] uppercase font-sans font-medium">
+                <Link href={`/projects/${project.slug}`} className="flex items-center gap-2 text-white border-b border-white/20 pb-1">
                   Read Case Study <ArrowRight size={14} />
                 </Link>
                 {project.liveSiteHref && (
-                  <>
-                    <span className="text-white/20">|</span>
-                    <a href={project.liveSiteHref} className="flex items-center gap-2 text-[#A8E06C] hover:opacity-80 transition-opacity">
-                      View Live Site <ArrowUpRight size={14} />
-                    </a>
-                  </>
+                  <a href={project.liveSiteHref} className="text-[#A8E06C] flex items-center gap-2">
+                    View Live Site <ArrowUpRight size={14} />
+                  </a>
                 )}
               </div>
             </div>
           </div>
         ))}
+        
+        <div className="h-24" />
       </div>
     </section>
   );
