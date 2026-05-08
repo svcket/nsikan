@@ -83,6 +83,9 @@ export default function HomePage() {
           <Testimonials />
 
           <Footer />
+          <div className="text-[8px] text-white/5 uppercase tracking-widest text-center py-2">
+            Build Status: Industrial Sync v2.1
+          </div>
 
           {/* 
             Other sections removed for focused refinement.
