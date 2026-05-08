@@ -5,8 +5,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
-import { client } from '@/sanity/lib/client';
-import { allProjectsQuery } from '@/sanity/lib/queries';
 import { urlFor } from '@/sanity/lib/image';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -38,16 +36,15 @@ export default function ProjectsSection() {
   useEffect(() => {
     async function fetchProjects() {
       try {
-        console.log('Fetching projects from Sanity...');
-        const data = await client.fetch(allProjectsQuery);
+        // Fetch via internal API route — bypasses Sanity CORS restrictions in production
+        const res = await fetch('/api/projects')
+        if (!res.ok) throw new Error(`API error: ${res.status}`)
+        const { projects: data } = await res.json()
         
         if (!data || !Array.isArray(data)) {
-          console.error('Projects data is not an array:', data);
           setProjects([]);
           return;
         }
-
-        console.log(`Successfully fetched ${data.length} projects.`);
 
         // Specific arrangement requested by user
         const projectOrder = [
@@ -166,8 +163,6 @@ export default function ProjectsSection() {
     return () => ctx.revert();
   }, [loading, projects]);
 
-  if (loading) return null;
-
   const active = projects.length > 0 ? projects[activeProject] : null;
 
   return (
@@ -176,8 +171,8 @@ export default function ProjectsSection() {
       ref={containerRef} 
       className="relative bg-black text-white w-full min-h-screen overflow-visible"
     >
-      {!active && (
-        <div className="absolute inset-0 flex items-center justify-center text-white/20 font-serif italic text-2xl">
+      {(loading || !active) && (
+        <div className="absolute inset-0 flex items-center justify-center text-white/20 font-serif italic text-2xl z-50">
           Initializing Projects...
         </div>
       )}

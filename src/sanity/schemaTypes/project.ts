@@ -178,6 +178,42 @@ export const projectType = defineType({
                       ]
                     }
                   ]
+                },
+                // Insights Block
+                {
+                  type: 'object',
+                  name: 'insightsBlock',
+                  title: 'Insights Block',
+                  fields: [
+                    {
+                      name: 'insights',
+                      type: 'array',
+                      title: 'Insights',
+                      of: [
+                        {
+                          type: 'object',
+                          fields: [
+                            { name: 'title', type: 'string', title: 'Title' },
+                            { name: 'text', type: 'text', title: 'Text' },
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                // List Block
+                {
+                  type: 'object',
+                  name: 'listBlock',
+                  title: 'List Block',
+                  fields: [
+                    {
+                      name: 'listItems',
+                      type: 'array',
+                      title: 'List Items',
+                      of: [{ type: 'string' }]
+                    }
+                  ]
                 }
               ]
             })

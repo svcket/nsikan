@@ -4,8 +4,6 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { ReactLenis } from 'lenis/react';
-import { client } from '@/sanity/lib/client';
-import { projectBySlugQuery } from '@/sanity/lib/queries';
 import { urlFor } from '@/sanity/lib/image';
 import Navigation from '@/components/global/Navigation';
 import Footer from '@/components/home/Footer';
@@ -29,37 +27,12 @@ export default function ProjectPage() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const [projectData, allProjects] = await Promise.all([
-          client.fetch(projectBySlugQuery, { slug }),
-          client.fetch(`*[_type == "project" && slug.current != $slug] {
-            _id,
-            title,
-            "slug": slug.current,
-            icon,
-            layout,
-            heroDescription,
-            heroVisual {
-              ...,
-              video {
-                asset-> {
-                  url
-                }
-              }
-            },
-            discoveryVisual {
-              ...,
-              video {
-                asset-> {
-                  url
-                }
-              }
-            }
-          }`, { slug })
-        ]);
+        // Use server-side API route to bypass Sanity CORS restrictions in production
+        const res = await fetch(`/api/project/${slug}`)
+        if (!res.ok) throw new Error(`API error: ${res.status}`)
+        const { project: projectData, otherProjects: others } = await res.json()
         setProject(projectData);
-        
-        // Pick 2 projects - we'll shuffle them in a way that is stable or after mount
-        setOtherProjects(allProjects);
+        setOtherProjects(others || []);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -71,6 +44,7 @@ export default function ProjectPage() {
       fetchData();
     }
   }, [slug]);
+
 
   // Client-side only shuffle to avoid hydration mismatch
   const [shuffledProjects, setShuffledProjects] = useState<any[]>([]);
