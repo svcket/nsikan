@@ -89,8 +89,8 @@ export default function Navigation({ stage }: NavigationProps) {
                 <div className="h-[32px] md:h-[32px] flex items-center">
                   <img 
                     src={hasMounted && isLightBackground 
-                      ? "/assets/landing page logo - black text.png" 
-                      : "/assets/landing page logo - white text.png"
+                      ? "/assets/landing%20page%20logo%20-%20black%20text.png" 
+                      : "/assets/landing%20page%20logo%20-%20white%20text.png"
                     } 
                     alt="Nsikan Etukudoh" 
                     className="h-full w-auto block select-none transition-opacity duration-300"
@@ -153,7 +153,7 @@ export default function Navigation({ stage }: NavigationProps) {
             <div className="flex items-center justify-between mb-20 px-2">
               <div className="h-[32px] flex items-center">
                 <img 
-                  src="/assets/landing page logo - white text.png" 
+                  src="/assets/landing%20page%20logo%20-%20white%20text.png" 
                   alt="Nsikan Etukudoh" 
                   className="h-full w-auto block select-none" 
                   style={{ maxWidth: 'none' }} 
