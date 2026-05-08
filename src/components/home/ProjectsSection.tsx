@@ -37,6 +37,11 @@ export default function ProjectsSection() {
   const [navigatingTo, setNavigatingTo] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<string | null>(null);
 
+  // Clear navigating state when returning to the page
+  useEffect(() => {
+    setNavigatingTo(null);
+  }, []);
+
   useEffect(() => {
     async function fetchProjects() {
       try {
@@ -172,6 +177,17 @@ export default function ProjectsSection() {
   const active = projects.length > 0 ? projects[activeProject] : null;
 
   return (
+    <>
+      {/* Instant Navigation Overlay */}
+      <div 
+        className={`fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center transition-opacity duration-300 ${navigatingTo ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+      >
+        <div className="w-8 h-8 border-2 border-white/20 border-t-white/80 rounded-full animate-spin mb-6" />
+        <p className="text-[12px] uppercase tracking-[0.1em] font-sans text-white/50">
+          Opening Case Study
+        </p>
+      </div>
+
     <section 
       id="projects"
       ref={containerRef} 
@@ -387,5 +403,6 @@ export default function ProjectsSection() {
         ))}
       </div>
     </section>
+    </>
   );
 }
