@@ -218,15 +218,16 @@ export default function ProjectsSection() {
                   {active.heroDescription}
                 </p>
                 <div className="flex items-center gap-6 text-[13px] tracking-[0.08em] uppercase font-sans font-medium">
-                  <a 
+                  <Link 
                     href={`/projects/${active.slug}`}
+                    prefetch={true}
                     onClick={() => setNavigatingTo(active.slug)}
                     className={`flex items-center gap-2 uppercase transition-colors ${
                       navigatingTo === active.slug ? "text-white/50 cursor-wait" : "hover:text-white"
                     }`}
                   >
                     {navigatingTo === active.slug ? "Opening Case Study..." : "Read Case Study"} <ArrowRight size={16} />
-                  </a>
+                  </Link>
                   {active.liveSiteHref && (
                     <>
                       <span className="text-white/20">|</span>
@@ -362,15 +363,16 @@ export default function ProjectsSection() {
                 {project.heroDescription}
               </p>
               <div className="flex items-center gap-6 text-[12px] tracking-[0.08em] uppercase font-sans font-medium">
-                <a 
+                <Link 
                   href={`/projects/${project.slug}`}
+                  prefetch={true}
                   onClick={() => setNavigatingTo(project.slug)}
                   className={`flex items-center gap-2 uppercase transition-colors ${
                     navigatingTo === project.slug ? "text-white/50 cursor-wait" : "hover:text-white"
                   }`}
                 >
                   {navigatingTo === project.slug ? "Opening..." : "Read Case Study"} <ArrowRight size={14} />
-                </a>
+                </Link>
                 {project.liveSiteHref && (
                   <>
                     <span className="text-white/20">|</span>

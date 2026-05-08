@@ -25,6 +25,14 @@ export default function ProjectClient({
     restDelta: 0.001
   });
 
+  // Defer rendering of heavy content below the fold to ensure 0ms router transitions
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    // A small timeout ensures the router transition paints the Hero first before mounting the heavy DOM
+    const t = setTimeout(() => setIsMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
   // Client-side only shuffle to avoid hydration mismatch
   const [shuffledProjects, setShuffledProjects] = useState<any[]>([]);
   useEffect(() => {
@@ -173,9 +181,10 @@ export default function ProjectClient({
           </motion.div>
         )}
 
-        <div className="px-4 md:px-10 pb-0">
-          {/* Case Study Narrative */}
-          <div className="flex flex-col items-center">
+        {isMounted && (
+          <div className="px-4 md:px-10 pb-0">
+            {/* Case Study Narrative */}
+            <div className="flex flex-col items-center">
             {project.caseStudy?.map((section: any) => (
               <section 
                 key={section._key} 
@@ -426,6 +435,7 @@ export default function ProjectClient({
           )}
 
         </div>
+        )}
 
         <Footer />
       </main>
