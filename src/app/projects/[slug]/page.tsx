@@ -197,19 +197,23 @@ export default function ProjectPage() {
                 playsInline 
                 className="w-full h-full object-contain"
               />
-            ) : project.heroVisual?.image ? (
-              <Image 
-                src={urlFor(project.heroVisual.image).url()} 
+            ) : (project.heroVisual?.image && (project.heroVisual.image.url || project.heroVisual.image.asset || project.heroVisual.image._ref)) ? (
+              <img 
+                src={project.heroVisual.image.url || urlFor(project.heroVisual.image).url()} 
                 alt="" 
-                fill 
-                className="object-contain"
+                className="w-full h-full object-contain block"
               />
-            ) : project.discoveryVisual ? (
-              <Image 
-                src={urlFor(project.discoveryVisual).url()} 
+            ) : (project.discoveryVisual?.image && (project.discoveryVisual.image.url || project.discoveryVisual.image.asset || project.discoveryVisual.image._ref)) ? (
+              <img 
+                src={project.discoveryVisual.image.url || urlFor(project.discoveryVisual.image).url()} 
                 alt="" 
-                fill 
-                className="object-contain"
+                className="w-full h-full object-contain block"
+              />
+            ) : (project.discoveryVisual && (project.discoveryVisual.url || project.discoveryVisual.asset || project.discoveryVisual._ref)) ? (
+              <img 
+                src={project.discoveryVisual.url || urlFor(project.discoveryVisual).url()} 
+                alt="" 
+                className="w-full h-full object-contain block"
               />
             ) : project.icon && (
               <div className="w-full h-full flex items-center justify-center p-20 opacity-20 grayscale">
@@ -289,11 +293,10 @@ export default function ProjectPage() {
                                 />
                                ) : (item.image && item.image.asset) && (
                                 <div className="relative h-full w-full flex items-center justify-center">
-                                  <Image 
-                                    src={urlFor(item.image).url()} 
+                                  <img 
+                                    src={item.image.url || urlFor(item.image).url()} 
                                     alt="" 
-                                    fill 
-                                    className="object-contain"
+                                    className="h-full w-auto object-contain block"
                                   />
                                 </div>
                               )}
@@ -403,30 +406,28 @@ export default function ProjectPage() {
                         <video 
                           src={other.heroVisual.video.asset.url} 
                           autoPlay loop muted playsInline 
-                          className={`w-full h-full object-contain ${other.layout === 'mobile' ? 'object-top' : 'object-center'}`}
+                          className={`w-full h-full object-contain block ${other.layout === 'mobile' ? 'object-top' : 'object-center'}`}
                         />
                       ) : other.heroVisual?.image ? (
-                        <Image 
-                          src={urlFor(other.heroVisual.image).url()} 
+                        <img 
+                          src={other.heroVisual.image.url || urlFor(other.heroVisual.image).url()} 
                           alt="" 
-                          fill 
-                          className={`object-contain ${other.layout === 'mobile' ? 'object-top' : 'object-center'}`} 
+                          className={`w-full h-full object-contain block ${other.layout === 'mobile' ? 'object-top' : 'object-center'}`} 
                         />
                       ) : other.discoveryVisual?.video?.asset?.url ? (
                         <video 
                           src={other.discoveryVisual.video.asset.url} 
                           autoPlay loop muted playsInline 
-                          className={`w-full h-full object-contain ${other.layout === 'mobile' ? 'object-top' : 'object-center'}`}
+                          className={`w-full h-full object-contain block ${other.layout === 'mobile' ? 'object-top' : 'object-center'}`}
                         />
                       ) : other.discoveryVisual?.image ? (
-                        <Image 
-                          src={urlFor(other.discoveryVisual.image).url()} 
+                        <img 
+                          src={other.discoveryVisual.image.url || urlFor(other.discoveryVisual.image).url()} 
                           alt="" 
-                          fill 
-                          className={`object-contain ${other.layout === 'mobile' ? 'object-top' : 'object-center'}`} 
+                          className={`w-full h-full object-contain block ${other.layout === 'mobile' ? 'object-top' : 'object-center'}`} 
                         />
                       ) : other.icon ? (
-                        <Image src={urlFor(other.icon).url()} alt="" width={40} height={40} className="w-10 h-10 opacity-20 grayscale" />
+                        <img src={urlFor(other.icon).url()} alt="" className="w-10 h-10 opacity-20 grayscale block object-contain" />
                       ) : (
                         <div className="w-10 h-10 bg-white/5 rounded-none" />
                       )}

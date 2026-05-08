@@ -8,7 +8,6 @@ import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
 import { allProjectsQuery } from '@/sanity/lib/queries';
 import { urlFor } from '@/sanity/lib/image';
-import { projects as LOCAL_PROJECTS } from '@/config/projects';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,11 +29,11 @@ export default function ProjectsSection() {
   const introRef = useRef<HTMLDivElement>(null);
   const heroPlaceholderRef = useRef<HTMLDivElement>(null);
   const splitStageRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLElement | null)[]>([]);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   
-  const [projects, setProjects] = useState<any[]>(LOCAL_PROJECTS);
+  const [projects, setProjects] = useState<any[]>([]);
   const [activeProject, setActiveProject] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchProjects() {
@@ -45,7 +44,7 @@ export default function ProjectsSection() {
         const projectOrder = [
           'torq',
           'breedjr',
-          // 'isang', // ignore for now
+          'isang',
           'ping',
           'masomo',
           'lecoindine',
@@ -65,15 +64,9 @@ export default function ProjectsSection() {
           return aIndex - bIndex;
         });
 
-        if (sortedData.length > 0) {
-          setProjects(sortedData);
-        } else {
-          console.warn('Sanity returned no projects, falling back to local config');
-          setProjects(LOCAL_PROJECTS);
-        }
+        setProjects(sortedData);
       } catch (error) {
-        console.error('Error fetching projects, falling back to local config:', error);
-        setProjects(LOCAL_PROJECTS);
+        console.error('Error fetching projects:', error);
       } finally {
         setLoading(false);
       }
@@ -163,34 +156,15 @@ export default function ProjectsSection() {
     return () => ctx.revert();
   }, [loading, projects]);
 
-  if (loading && projects.length === 0) {
-    return (
-      <section id="projects" className="h-screen bg-[#050505] flex items-center justify-center text-white/10 uppercase tracking-[0.2em] text-[10px]">
-        Loading Index...
-      </section>
-    );
-  }
+  if (loading || projects.length === 0) return null;
 
-  const getImageUrl = (source: any) => {
-    if (!source) return '';
-    if (typeof source === 'string' && source.startsWith('/assets/')) return source;
-    try {
-      return urlFor(source).url();
-    } catch (e) {
-      return '';
-    }
-  };
-
-  const active = projects[activeProject] || { title: 'Loading...', description: '...', slug: '' };
-
-  const totalScroll = 2000 + (projects.length * 1000);
+  const active = projects[activeProject];
 
   return (
     <section 
       id="projects"
       ref={containerRef} 
-      className="relative bg-black text-white w-full overflow-visible border-t border-white/5"
-      style={{ height: totalScroll }}
+      className="relative bg-black text-white w-full min-h-screen overflow-visible"
     >
       {/* DESKTOP VIEW (STICKY / GSAP) */}
       <div className="hidden md:block w-full h-screen overflow-hidden sticky top-0">
@@ -263,20 +237,20 @@ export default function ProjectsSection() {
                       />
                    ) : project.heroVisual?.image ? (
                       <img 
-                        src={getImageUrl(project.heroVisual.image)} 
+                        src={urlFor(project.heroVisual.image).url()} 
                         alt="" 
                         className="w-full h-auto block object-cover" 
                       />
                    ) : project.discoveryVisual ? (
                       <img 
-                        src={getImageUrl(project.discoveryVisual)} 
+                        src={urlFor(project.discoveryVisual).url()} 
                         alt="" 
                         className="w-full h-auto block object-cover" 
                       />
                    ) : project.icon ? (
                       <div className="w-full aspect-video flex items-center justify-center p-12">
                         <img 
-                          src={getImageUrl(project.icon)} 
+                          src={urlFor(project.icon).url()} 
                           alt="" 
                           className="w-32 h-32 object-contain opacity-20 grayscale" 
                         />
@@ -315,59 +289,59 @@ export default function ProjectsSection() {
                     />
                  ) : project.heroVisual?.image ? (
                     <img 
-                      src={getImageUrl(project.heroVisual.image)} 
+                      src={urlFor(project.heroVisual.image).url()} 
                       alt="" 
                       className="w-full h-auto block object-cover" 
                     />
                  ) : project.discoveryVisual ? (
                     <img 
-                      src={getImageUrl(project.discoveryVisual)} 
+                      src={urlFor(project.discoveryVisual).url()} 
                       alt="" 
                       className="w-full h-auto block object-cover" 
                     />
                  ) : project.icon ? (
-                    <div className="w-full aspect-video flex items-center justify-center p-12">
+                    <div className="w-full aspect-video flex items-center justify-center p-8">
                       <img 
-                        src={getImageUrl(project.icon)} 
+                        src={urlFor(project.icon).url()} 
                         alt="" 
-                        className="w-32 h-32 object-contain opacity-20 grayscale" 
+                        className="w-20 h-20 object-contain opacity-20 grayscale" 
                       />
                     </div>
                  ) : null}
               </div>
             </div>
             
-            {/* Info Below */}
-            <div className="text-center px-4">
-              <div className="flex flex-wrap justify-center gap-2 mb-6">
+            {/* Info Beneath */}
+            <div className="flex flex-col">
+              <div className="flex flex-wrap gap-2 mb-4">
                 {project.tags?.map((tag: string) => (
-                  <span key={tag} className="text-[10px] tracking-widest uppercase opacity-40 font-sans px-2 py-1 border border-white/10">
+                  <span key={tag} className="text-[10px] tracking-widest uppercase opacity-40 font-sans px-2 py-1 border border-white/10 rounded-none">
                     {tag}
                   </span>
                 ))}
               </div>
-              <h3 className="font-serif italic text-[36px] leading-[1.1] text-white mb-6">
+              <h3 className="font-serif italic text-[32px] leading-[1.1] text-white mb-4">
                 {project.title}
               </h3>
-              <p className="text-[16px] leading-[1.6] text-white/50 font-sans mb-10 mx-auto max-w-[320px]">
+              <p className="text-[16px] leading-[1.6] text-white/60 font-sans mb-6">
                 {project.heroDescription}
               </p>
-              
-              <div className="flex flex-col items-center gap-6 text-[12px] tracking-[0.1em] uppercase font-sans font-medium">
-                <Link href={`/projects/${project.slug}`} className="flex items-center gap-2 text-white border-b border-white/20 pb-1">
+              <div className="flex items-center gap-6 text-[12px] tracking-[0.08em] uppercase font-sans font-medium">
+                <Link href={`/projects/${project.slug}`} className="flex items-center gap-2 hover:text-white transition-colors">
                   Read Case Study <ArrowRight size={14} />
                 </Link>
                 {project.liveSiteHref && (
-                  <a href={project.liveSiteHref} className="text-[#A8E06C] flex items-center gap-2">
-                    View Live Site <ArrowUpRight size={14} />
-                  </a>
+                  <>
+                    <span className="text-white/20">|</span>
+                    <a href={project.liveSiteHref} className="flex items-center gap-2 text-[#A8E06C] hover:opacity-80 transition-opacity">
+                      View Live Site <ArrowUpRight size={14} />
+                    </a>
+                  </>
                 )}
               </div>
             </div>
           </div>
         ))}
-        
-        <div className="h-24" />
       </div>
     </section>
   );

@@ -1,12 +1,15 @@
 export interface Project {
   slug: string;
   title: string;
-  headline?: string;
   description: string;
+  headline?: string;
+  heroDescription?: string;
+  icon?: string;
+  tags?: string[];
+  layout?: 'mobile' | 'web';
   caseStudyHref: string;
   liveSiteHref: string;
   type: 'mobile' | 'web';
-  icon?: string;
   caseStudy?: {
     sections: {
       id: string;
@@ -24,7 +27,7 @@ export interface Project {
   };
 }
 
-export const projects: Project[] = [
+export const projects: any[] = [
   { 
     slug: "ping", 
     title: "Ping - Formerly Gamic", 
@@ -236,9 +239,7 @@ export const projects: Project[] = [
     description: "We are defining the strategy for Addmind’s new Dubai Harbour F&B precinct and building the place.", 
     caseStudyHref: "#", 
     liveSiteHref: "#", 
-    type: "web",
-    icon: "/assets/ping-logo.png",
-    tags: ["Strategy", "Construction", "F&B"]
+    type: "web" 
   },
   { 
     slug: "breedjr", 
@@ -246,9 +247,7 @@ export const projects: Project[] = [
     description: "A dedicated platform for livestock management and agricultural innovation.", 
     caseStudyHref: "#", 
     liveSiteHref: "#", 
-    type: "web",
-    icon: "/assets/ping-logo.png",
-    tags: ["Agri-Tech", "Product Design"]
+    type: "web" 
   },
   { 
     slug: "isang", 
