@@ -27,10 +27,6 @@ export const metadata: Metadata = {
     description: 'Product designer crafting digital products, interfaces, and brand experiences.',
     images: ['/assets/og-image.png'],
   },
-  icons: {
-    icon: '/assets/favicon.png',
-    apple: '/assets/favicon.png',
-  },
 };
 
 export default function RootLayout({
