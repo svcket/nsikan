@@ -79,6 +79,10 @@ export const allProjectsQuery = groq`
     icon,
     heroVisual {
       ...,
+      image {
+        ...,
+        "url": asset->url
+      },
       video {
         asset-> {
           url
@@ -87,6 +91,10 @@ export const allProjectsQuery = groq`
     },
     discoveryVisual {
       ...,
+      image {
+        ...,
+        "url": asset->url
+      },
       video {
         asset-> {
           url

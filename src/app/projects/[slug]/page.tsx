@@ -354,6 +354,40 @@ export default function ProjectPage() {
                         </div>
                       )}
 
+                      {/* Insights Block */}
+                      {block._type === 'insightsBlock' && (
+                        <div className="w-full max-w-[668px] mx-auto">
+                          <div className="grid grid-cols-1 gap-12">
+                            {block.insights?.map((insight: any) => (
+                              <div key={insight._key} className="flex flex-col gap-4">
+                                <h4 className="text-[24px] font-serif italic text-white/90">
+                                  {insight.title}
+                                </h4>
+                                <p className="text-[17px] leading-[1.6] opacity-60 font-sans">
+                                  {insight.text}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* List Block */}
+                      {block._type === 'listBlock' && (
+                        <div className="w-full max-w-[668px] mx-auto">
+                          <ul className="space-y-6">
+                            {block.listItems?.map((item: string, i: number) => (
+                              <li key={i} className="flex gap-4 items-start">
+                                <span className="text-white/20 mt-2">—</span>
+                                <p className="text-[17px] leading-[1.6] opacity-60 font-sans">
+                                  {item}
+                                </p>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
                     </div>
                   );})}
                 </div>

@@ -235,9 +235,15 @@ export default function ProjectsSection() {
                         playsInline 
                         className="w-full h-auto block object-cover" 
                       />
-                   ) : project.heroVisual?.image ? (
+                   ) : (project.heroVisual?.image && (project.heroVisual.image.url || project.heroVisual.image.asset || project.heroVisual.image._ref)) ? (
                       <img 
-                        src={urlFor(project.heroVisual.image).url()} 
+                        src={project.heroVisual.image.url || urlFor(project.heroVisual.image).url()} 
+                        alt="" 
+                        className="w-full h-auto block object-cover" 
+                      />
+                   ) : (project.discoveryVisual?.image && (project.discoveryVisual.image.url || project.discoveryVisual.image.asset || project.discoveryVisual.image._ref)) ? (
+                      <img 
+                        src={project.discoveryVisual.image.url || urlFor(project.discoveryVisual.image).url()} 
                         alt="" 
                         className="w-full h-auto block object-cover" 
                       />
@@ -278,36 +284,36 @@ export default function ProjectsSection() {
               }`}
             >
               <div className="w-full relative">
-                 {project.heroVisual?.video?.asset?.url ? (
-                    <video 
-                      src={project.heroVisual.video.asset.url} 
-                      autoPlay 
-                      loop 
-                      muted 
-                      playsInline 
-                      className="w-full h-auto block object-cover" 
-                    />
-                 ) : project.heroVisual?.image ? (
-                    <img 
-                      src={urlFor(project.heroVisual.image).url()} 
-                      alt="" 
-                      className="w-full h-auto block object-cover" 
-                    />
-                 ) : project.discoveryVisual ? (
-                    <img 
-                      src={urlFor(project.discoveryVisual).url()} 
-                      alt="" 
-                      className="w-full h-auto block object-cover" 
-                    />
-                 ) : project.icon ? (
-                    <div className="w-full aspect-video flex items-center justify-center p-8">
-                      <img 
-                        src={urlFor(project.icon).url()} 
-                        alt="" 
-                        className="w-20 h-20 object-contain opacity-20 grayscale" 
+                   {project.heroVisual?.video?.asset?.url ? (
+                      <video 
+                        src={project.heroVisual.video.asset.url} 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline 
+                        className="w-full h-auto block object-cover" 
                       />
-                    </div>
-                 ) : null}
+                   ) : (project.heroVisual?.image && (project.heroVisual.image.url || project.heroVisual.image.asset || project.heroVisual.image._ref)) ? (
+                      <img 
+                        src={project.heroVisual.image.url || urlFor(project.heroVisual.image).url()} 
+                        alt="" 
+                        className="w-full h-auto block object-cover" 
+                      />
+                   ) : (project.discoveryVisual?.image && (project.discoveryVisual.image.url || project.discoveryVisual.image.asset || project.discoveryVisual.image._ref)) ? (
+                      <img 
+                        src={project.discoveryVisual.image.url || urlFor(project.discoveryVisual.image).url()} 
+                        alt="" 
+                        className="w-full h-auto block object-cover" 
+                      />
+                   ) : project.icon ? (
+                      <div className="w-full aspect-video flex items-center justify-center p-8">
+                        <img 
+                          src={urlFor(project.icon).url()} 
+                          alt="" 
+                          className="w-20 h-20 object-contain opacity-20 grayscale" 
+                        />
+                      </div>
+                   ) : null}
               </div>
             </div>
             

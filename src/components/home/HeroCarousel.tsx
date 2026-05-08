@@ -65,7 +65,7 @@ export default function HeroCarousel({ stage = 'ready' }: HeroCarouselProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={showContent ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1.4, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
-          className="absolute top-[28vh] flex flex-col items-center text-center px-4 z-20 pointer-events-none"
+          className="absolute top-[16vh] flex flex-col items-center text-center px-4 z-20 pointer-events-none"
         >
           {/* Headline (H1) - 80px */}
           <h1 className="font-serif italic text-[clamp(48px,8vw,80px)] leading-[1.05] text-white tracking-tight">
