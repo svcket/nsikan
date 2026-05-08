@@ -68,38 +68,16 @@ export const projectBySlugQuery = groq`
 `
 
 export const allProjectsQuery = groq`
-  *[_type == "project"] | order(_createdAt desc) {
+  *[_type == "project"] {
     _id,
     title,
     "slug": slug.current,
     heroDescription,
-    "layout": layout,
+    layout,
     tags,
     liveSiteHref,
     icon,
-    heroVisual {
-      ...,
-      image {
-        ...,
-        "url": asset->url
-      },
-      video {
-        asset-> {
-          url
-        }
-      }
-    },
-    discoveryVisual {
-      ...,
-      image {
-        ...,
-        "url": asset->url
-      },
-      video {
-        asset-> {
-          url
-        }
-      }
-    }
+    heroVisual,
+    discoveryVisual
   }
 `

@@ -38,8 +38,17 @@ export default function ProjectsSection() {
   useEffect(() => {
     async function fetchProjects() {
       try {
+        console.log('Fetching projects from Sanity...');
         const data = await client.fetch(allProjectsQuery);
         
+        if (!data || !Array.isArray(data)) {
+          console.error('Projects data is not an array:', data);
+          setProjects([]);
+          return;
+        }
+
+        console.log(`Successfully fetched ${data.length} projects.`);
+
         // Specific arrangement requested by user
         const projectOrder = [
           'torq',
@@ -53,7 +62,7 @@ export default function ProjectsSection() {
           'esbabi'
         ];
 
-        const sortedData = data.sort((a: any, b: any) => {
+        const sortedData = [...data].sort((a: any, b: any) => {
           const aIndex = projectOrder.indexOf(a.slug);
           const bIndex = projectOrder.indexOf(b.slug);
           
@@ -67,6 +76,7 @@ export default function ProjectsSection() {
         setProjects(sortedData);
       } catch (error) {
         console.error('Error fetching projects:', error);
+        setProjects([]);
       } finally {
         setLoading(false);
       }
@@ -156,9 +166,9 @@ export default function ProjectsSection() {
     return () => ctx.revert();
   }, [loading, projects]);
 
-  if (loading || projects.length === 0) return null;
+  if (loading) return null;
 
-  const active = projects[activeProject];
+  const active = projects.length > 0 ? projects[activeProject] : null;
 
   return (
     <section 
@@ -166,14 +176,19 @@ export default function ProjectsSection() {
       ref={containerRef} 
       className="relative bg-black text-white w-full min-h-screen overflow-visible"
     >
+      {!active && (
+        <div className="absolute inset-0 flex items-center justify-center text-white/20 font-serif italic text-2xl">
+          Initializing Projects...
+        </div>
+      )}
+
       {/* DESKTOP VIEW (STICKY / GSAP) */}
-      <div className="hidden md:block w-full h-screen overflow-hidden sticky top-0">
+      <div className={`hidden md:block w-full h-screen overflow-hidden sticky top-0 ${!active ? 'opacity-0' : 'opacity-100'}`}>
         {/* PHASE 1: INTRO */}
         <div ref={introRef} className="absolute inset-0 flex flex-col items-center justify-center z-50 pointer-events-none">
           <h2 className="font-serif italic text-[72px] leading-[1.2] text-white text-center">
             Projects and<br />Collaborations
           </h2>
-          {/* <div ref={heroPlaceholderRef} className="w-[1200px] h-[780px] bg-[#050505] border border-white/10" /> */}
         </div>
 
         {/* PHASE 2: SHOWCASE */}
@@ -181,34 +196,36 @@ export default function ProjectsSection() {
           
           {/* LEFT COLUMN */}
           <div className="w-[40%] flex flex-col justify-center pointer-events-auto">
-            <div key={activeProject} className="animate-in fade-in slide-in-from-bottom-2 duration-700">
-              <div className="flex flex-wrap gap-2 mb-4">
-                {active.tags?.map((tag: string) => (
-                  <span key={tag} className="text-[11px] tracking-widest uppercase opacity-40 font-sans px-2 py-1 border border-white/10 rounded-none">
-                    {tag}
-                  </span>
-                ))}
+            {active && (
+              <div key={activeProject} className="animate-in fade-in slide-in-from-bottom-2 duration-700">
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {active.tags?.map((tag: string) => (
+                    <span key={tag} className="text-[11px] tracking-widest uppercase opacity-40 font-sans px-2 py-1 border border-white/10 rounded-none">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <h3 className="font-serif italic text-[48px] leading-[1.1] text-white font-normal mb-8 whitespace-nowrap">
+                  {active.title}
+                </h3>
+                <p className="text-[18px] leading-[1.6] text-white/60 font-sans mb-10 max-w-[420px]">
+                  {active.heroDescription}
+                </p>
+                <div className="flex items-center gap-6 text-[13px] tracking-[0.08em] uppercase font-sans font-medium">
+                  <Link href={`/projects/${active.slug}`} className="flex items-center gap-2 hover:text-white transition-colors">
+                    Read Case Study <ArrowRight size={16} />
+                  </Link>
+                  {active.liveSiteHref && (
+                    <>
+                      <span className="text-white/20">|</span>
+                      <a href={active.liveSiteHref} className="flex items-center gap-2 text-[#A8E06C] hover:opacity-80 transition-opacity">
+                        View Live Site <ArrowUpRight size={16} />
+                      </a>
+                    </>
+                  )}
+                </div>
               </div>
-              <h3 className="font-serif italic text-[48px] leading-[1.1] text-white font-normal mb-8 whitespace-nowrap">
-                {active.title}
-              </h3>
-              <p className="text-[18px] leading-[1.6] text-white/60 font-sans mb-10 max-w-[420px]">
-                {active.heroDescription}
-              </p>
-              <div className="flex items-center gap-6 text-[13px] tracking-[0.08em] uppercase font-sans font-medium">
-                <Link href={`/projects/${active.slug}`} className="flex items-center gap-2 hover:text-white transition-colors">
-                  Read Case Study <ArrowRight size={16} />
-                </Link>
-                {active.liveSiteHref && (
-                  <>
-                    <span className="text-white/20">|</span>
-                    <a href={active.liveSiteHref} className="flex items-center gap-2 text-[#A8E06C] hover:opacity-80 transition-opacity">
-                      View Live Site <ArrowUpRight size={16} />
-                    </a>
-                  </>
-                )}
-              </div>
-            </div>
+            )}
           </div>
 
           {/* RIGHT COLUMN */}
