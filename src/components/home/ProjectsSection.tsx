@@ -223,7 +223,7 @@ export default function ProjectsSection() {
                       router.push(`/projects/${active.slug}`);
                     }}
                     disabled={navigatingTo === active.slug}
-                    className="flex items-center gap-2 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-wait"
+                    className="flex items-center gap-2 uppercase hover:text-white transition-colors disabled:opacity-50 disabled:cursor-wait"
                   >
                     {navigatingTo === active.slug ? "Opening Case Study..." : "Read Case Study"} <ArrowRight size={16} />
                   </button>
@@ -368,7 +368,7 @@ export default function ProjectsSection() {
                     router.push(`/projects/${project.slug}`);
                   }}
                   disabled={navigatingTo === project.slug}
-                  className="flex items-center gap-2 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-wait"
+                  className="flex items-center gap-2 uppercase hover:text-white transition-colors disabled:opacity-50 disabled:cursor-wait"
                 >
                   {navigatingTo === project.slug ? "Opening..." : "Read Case Study"} <ArrowRight size={14} />
                 </button>
