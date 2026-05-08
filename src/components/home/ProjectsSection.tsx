@@ -191,7 +191,7 @@ export default function ProjectsSection() {
       style={{ height: '5000px', minHeight: '5000px' }}
     >
       {/* DESKTOP VIEW (STICKY / GSAP) */}
-      <div className="hidden md:block w-full h-screen overflow-hidden sticky top-0">
+      <div className="hidden md:block w-full h-screen overflow-hidden sticky top-0 border-[5px] border-[#FF00FF]">
         {/* PHASE 1: INTRO */}
         <div ref={introRef} className="absolute inset-0 flex flex-col items-center justify-center z-50 pointer-events-none">
           <h2 className="font-serif italic text-[72px] leading-[1.2] text-white text-center">
@@ -288,7 +288,7 @@ export default function ProjectsSection() {
       </div>
 
       {/* MOBILE VIEW (STANDARD SCROLL LIST) */}
-      <div className="md:hidden w-full flex flex-col pt-24 px-4 space-y-32">
+      <div className="md:hidden w-full flex flex-col pt-24 px-4 space-y-32 border-[5px] border-[#FF00FF]">
         <h2 className="font-serif italic text-[44px] leading-[1.2] text-white mb-12 text-center">
           Projects and Collaborations
         </h2>
