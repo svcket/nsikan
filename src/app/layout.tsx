@@ -5,11 +5,11 @@ import { CustomCursor } from '@/components/global/CustomCursor';
 export const metadata: Metadata = {
   title: 'Nsikan Etukudoh — Product Designer',
   description: 'Product designer crafting digital products, interfaces, and brand experiences.',
-  metadataBase: new URL('https://nsikan.vercel.app'),
+  metadataBase: new URL('https://etukudoh.com'),
   openGraph: {
     title: 'Nsikan Etukudoh — Product Designer',
     description: 'Product designer crafting digital products, interfaces, and brand experiences.',
-    url: 'https://nsikan.vercel.app',
+    url: 'https://etukudoh.com',
     siteName: 'Nsikan Etukudoh',
     images: [
       {
