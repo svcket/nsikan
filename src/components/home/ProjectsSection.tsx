@@ -29,7 +29,7 @@ export default function ProjectsSection() {
   const introRef = useRef<HTMLDivElement>(null);
   const heroPlaceholderRef = useRef<HTMLDivElement>(null);
   const splitStageRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const cardRefs = useRef<(HTMLElement | null)[]>([]);
   
   const [projects, setProjects] = useState<any[]>([]);
   const [activeProject, setActiveProject] = useState(0);
