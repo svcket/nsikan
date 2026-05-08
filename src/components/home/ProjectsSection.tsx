@@ -220,6 +220,7 @@ export default function ProjectsSection() {
                 <div className="flex items-center gap-6 text-[13px] tracking-[0.08em] uppercase font-sans font-medium">
                   <Link 
                     href={`/projects/${active.slug}`}
+                    prefetch={true}
                     onClick={() => setNavigatingTo(active.slug)}
                     className={`flex items-center gap-2 uppercase transition-colors ${
                       navigatingTo === active.slug ? "text-white/50 cursor-wait" : "hover:text-white"
@@ -364,6 +365,7 @@ export default function ProjectsSection() {
               <div className="flex items-center gap-6 text-[12px] tracking-[0.08em] uppercase font-sans font-medium">
                 <Link 
                   href={`/projects/${project.slug}`}
+                  prefetch={true}
                   onClick={() => setNavigatingTo(project.slug)}
                   className={`flex items-center gap-2 uppercase transition-colors ${
                     navigatingTo === project.slug ? "text-white/50 cursor-wait" : "hover:text-white"
