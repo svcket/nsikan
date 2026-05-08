@@ -32,47 +32,50 @@ export default function ProjectsSection() {
   const [projects, setProjects] = useState<any[]>([]);
   const [activeProject, setActiveProject] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchProjects() {
       try {
-        // Fetch via internal API route — bypasses Sanity CORS restrictions in production
         const res = await fetch('/api/projects')
-        if (!res.ok) throw new Error(`API error: ${res.status}`)
-        const { projects: data } = await res.json()
-        
+        if (!res.ok) {
+          const text = await res.text()
+          throw new Error(`API ${res.status}: ${text.slice(0, 200)}`)
+        }
+        const body = await res.json()
+        const data = body.projects
+
         if (!data || !Array.isArray(data)) {
+          setFetchError(`Bad response shape: ${JSON.stringify(body).slice(0, 200)}`);
           setProjects([]);
           return;
         }
 
-        // Specific arrangement requested by user
+        if (data.length === 0) {
+          setFetchError('Sanity returned 0 projects — check dataset/projectId');
+          setProjects([]);
+          return;
+        }
+
         const projectOrder = [
-          'torq',
-          'breedjr',
-          'isang',
-          'ping',
-          'masomo',
-          'lecoindine',
-          'lstnr',
-          'plugin',
-          'esbabi'
+          'torq', 'breedjr', 'isang', 'ping', 'masomo',
+          'lecoindine', 'lstnr', 'plugin', 'esbabi'
         ];
 
         const sortedData = [...data].sort((a: any, b: any) => {
           const aIndex = projectOrder.indexOf(a.slug);
           const bIndex = projectOrder.indexOf(b.slug);
-          
           if (aIndex === -1 && bIndex === -1) return 0;
           if (aIndex === -1) return 1;
           if (bIndex === -1) return -1;
-          
           return aIndex - bIndex;
         });
 
         setProjects(sortedData);
-      } catch (error) {
-        console.error('Error fetching projects:', error);
+      } catch (error: any) {
+        const msg = error?.message || String(error)
+        console.error('Error fetching projects:', msg);
+        setFetchError(msg);
         setProjects([]);
       } finally {
         setLoading(false);
@@ -171,7 +174,12 @@ export default function ProjectsSection() {
       ref={containerRef} 
       className="relative bg-black text-white w-full min-h-screen overflow-visible"
     >
-      {(loading || !active) && (
+      {fetchError && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-50 gap-4 px-8 text-center">
+          <p className="text-red-400 font-mono text-sm max-w-xl break-all">{fetchError}</p>
+        </div>
+      )}
+      {(loading || (!active && !fetchError)) && (
         <div className="absolute inset-0 flex items-center justify-center text-white/20 font-serif italic text-2xl z-50">
           Initializing Projects...
         </div>
