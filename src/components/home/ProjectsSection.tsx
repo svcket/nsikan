@@ -279,6 +279,8 @@ export default function ProjectsSection() {
                         loop 
                         muted 
                         playsInline 
+                        preload="metadata"
+                        poster={project.heroVisual?.image ? urlFor(project.heroVisual.image).url() : undefined}
                         className="w-full h-auto block object-cover" 
                       />
                    ) : (project.heroVisual?.image && (project.heroVisual.image.url || project.heroVisual.image.asset || project.heroVisual.image._ref)) ? (
@@ -316,7 +318,10 @@ export default function ProjectsSection() {
       </div>
 
       {/* MOBILE VIEW (STANDARD SCROLL LIST) */}
-      <div className="md:hidden w-full flex flex-col pt-24 px-4 space-y-32">
+      <div 
+        className="md:hidden w-full flex flex-col pt-24 px-4 space-y-[80px]"
+        style={{ paddingBottom: 'var(--section-spacing)' }}
+      >
         <h2 className="font-serif italic text-[44px] leading-[1.2] text-white mb-12 text-center">
           Projects and Collaborations
         </h2>
@@ -337,6 +342,8 @@ export default function ProjectsSection() {
                         loop 
                         muted 
                         playsInline 
+                        preload="metadata"
+                        poster={project.heroVisual?.image ? urlFor(project.heroVisual.image).url() : undefined}
                         className="w-full h-auto block object-cover" 
                       />
                    ) : (project.heroVisual?.image && (project.heroVisual.image.url || project.heroVisual.image.asset || project.heroVisual.image._ref)) ? (
@@ -384,24 +391,27 @@ export default function ProjectsSection() {
               >
                 {project.heroDescription}
               </p>
-              <div className="flex items-center gap-6 text-[length:var(--text-label)] tracking-[0.08em] uppercase font-sans font-medium">
+              <div className="flex items-center gap-4 text-[length:var(--text-label)] tracking-[0.08em] uppercase font-sans font-medium">
                 <Link 
                   href={`/projects/${project.slug}`}
                   prefetch={true}
                   onClick={() => setNavigatingTo(project.slug)}
-                  className={`flex items-center gap-2 uppercase transition-colors ${
+                  className={`flex items-center gap-1.5 uppercase transition-colors shrink-0 whitespace-nowrap ${
                     navigatingTo === project.slug ? "text-white/50 cursor-wait" : "hover:text-white"
                   }`}
                 >
-                  {navigatingTo === project.slug ? "Opening..." : "Read Case Study"} <ArrowRight size={14} />
+                  {navigatingTo === project.slug ? "Opening..." : "Read Case Study"} <ArrowRight size={14} className="shrink-0" />
                 </Link>
                 {project.liveSiteHref && (
-                  <>
-                    <span className="text-white/20">|</span>
-                    <a href={project.liveSiteHref} className="flex items-center gap-2 text-[#A8E06C] hover:opacity-80 transition-opacity">
-                      View Live Site <ArrowUpRight size={14} />
+                  <div className="flex items-center gap-4 shrink-0">
+                    <span className="text-white/20 shrink-0">|</span>
+                    <a 
+                      href={project.liveSiteHref} 
+                      className="flex items-center gap-1.5 text-[#A8E06C] hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap"
+                    >
+                      View Live Site <ArrowUpRight size={14} className="shrink-0" />
                     </a>
-                  </>
+                  </div>
                 )}
               </div>
             </div>

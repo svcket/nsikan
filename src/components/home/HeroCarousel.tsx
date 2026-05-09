@@ -77,11 +77,6 @@ export default function HeroCarousel({ stage = 'ready' }: HeroCarouselProps) {
             and UI Engineer
           </h1>
 
-          {/* 
-            New Microcopy: 22px Helvetica Neue
-            Positioned exactly 36px beneath the headline.
-            Line height set to 150px with specific break after 'into'.
-          */}
           <motion.p 
             initial={{ opacity: 0, y: 10 }}
             animate={showContent ? { opacity: 1, y: 0 } : {}}
@@ -100,11 +95,6 @@ export default function HeroCarousel({ stage = 'ready' }: HeroCarouselProps) {
           </motion.p>
         </motion.div>
 
-        {/* 
-          Project Preview Placeholder: 
-          - Maintains same relative distance, pushed down after microcopy.
-          - 240px margin from the main content group.
-        */}
         <div className="relative w-full flex justify-center mt-[320px] z-10">
           <motion.div
             style={{ 
@@ -121,11 +111,12 @@ export default function HeroCarousel({ stage = 'ready' }: HeroCarouselProps) {
             className="relative overflow-hidden bg-transparent"
           >
             <video 
-              src="/assets/main shit.mov" 
+              src="/assets/hero_optimized.mp4" 
               autoPlay 
               loop 
               muted 
               playsInline 
+              preload="metadata"
               className="w-full h-full object-contain"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
