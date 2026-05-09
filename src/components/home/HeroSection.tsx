@@ -56,18 +56,18 @@ export default function HeroSection({ stage }: HeroSectionProps) {
         <div className="flex flex-col w-full mb-16 lg:mb-20">
           
           {/* Left: Main H1 */}
-          <motion.div variants={itemVariants} className="w-full lg:w-2/3 mb-10">
-            <h1 className="font-serif italic text-[56px] md:text-[64px] leading-[1.1] tracking-tight text-[#FFD1CE]">
+          <motion.div variants={itemVariants} className="w-full lg:w-2/3" style={{ marginBottom: 'var(--space-h-s)' }}>
+            <h1 className="font-serif italic text-[length:var(--text-hero)] leading-[var(--text-hero-lh)] tracking-tight text-[#FFD1CE]">
               Senior Product Designer<br />
               and UI Engineer
             </h1>
           </motion.div>
 
-          {/* Left: Supporting Microcopy (Helvetica Neue, 18px, 140% LH) */}
+          {/* Left: Supporting Microcopy */}
           <motion.div variants={itemVariants} className="w-full lg:w-1/2">
             <p 
-              className="font-sans text-[#9481A3] text-[18px] font-normal max-w-[420px]"
-              style={{ lineHeight: '1.4' }}
+              className="font-sans text-[#9481A3] text-[length:var(--text-body)] font-normal max-w-[420px]"
+              style={{ lineHeight: 'var(--text-body-lh)' }}
             >
               I help teams turn complex product ideas into clear,<br />
               thoughtful digital experiences.

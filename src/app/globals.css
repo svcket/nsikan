@@ -14,6 +14,11 @@
 
   --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-serif: "Times New Roman", Times, serif;
+
+  /* Spacing Rhythm Utilities */
+  --spacing-h-s: var(--space-h-s);
+  --spacing-s-b: var(--space-s-b);
+  --spacing-b-c: var(--space-b-c);
 }
 
 :root {
@@ -21,8 +26,56 @@
   --foreground: #1C1522;
   --muted: #FFD1CE;
   --muted-foreground: #9481A3;
+
+  /* Mobile Typography Scale (Default) */
+  --text-hero: clamp(40px, 10vw, 48px);
+  --text-hero-lh: 1.05;
+  
+  --text-section: clamp(28px, 8vw, 32px);
+  --text-section-lh: 1.1;
+
+  --text-body: 17px;
+  --text-body-lh: 1.5;
+
+  --text-label: 14px;
+
+  /* Mobile Spacing System */
+  --section-spacing: 80px;
+  --space-h-s: 24px;
+  --space-s-b: 16px;
+  --space-b-c: 32px;
 }
 
+@media (min-width: 768px) {
+  :root {
+    /* Tablet Typography Overrides */
+    --text-hero: clamp(56px, 8vw, 64px);
+    --text-hero-lh: 1;
+    
+    --text-section: clamp(40px, 6vw, 48px);
+    
+    --text-body: 18px;
+    
+    /* Tablet Spacing */
+    --section-spacing: 80px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    /* Desktop Typography Overrides */
+    --text-hero: 80px;
+    --text-section: 56px;
+    --text-body: 20px;
+    --text-label: 16px;
+    
+    /* Desktop Spacing */
+    --section-spacing: 160px;
+    --space-h-s: 32px;
+    --space-s-b: 24px;
+    --space-b-c: 48px;
+  }
+}
 
 body {
   background: var(--background);
@@ -34,13 +87,8 @@ body {
 
 /* Animations */
 @keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .animate-marquee {

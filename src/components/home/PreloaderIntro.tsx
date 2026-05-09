@@ -13,7 +13,7 @@ interface PreloaderIntroProps {
 function LogoLockup({ isActive = false }: { isActive?: boolean }) {
   return (
     <div className={`flex items-center ${isActive ? 'opacity-100' : 'opacity-20'}`}>
-      <div className="h-[clamp(40px,10vw,80px)] flex items-center">
+      <div className="flex items-center" style={{ height: 'var(--text-hero)' }}>
         <img 
           src={isActive ? "/assets/preload - active.png" : "/assets/preload - inactive.png"} 
           alt="Nsikan Etukudoh" 

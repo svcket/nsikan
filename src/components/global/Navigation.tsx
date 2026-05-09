@@ -103,9 +103,9 @@ export default function Navigation({ stage }: NavigationProps) {
         </div>
 
         {/* Right: Desktop Links */}
-        <div className={`hidden md:flex items-center space-x-12 text-[14px] font-sans font-medium tracking-wide pointer-events-auto transition-colors duration-300 ${
+        <div className={`hidden md:flex items-center space-x-12 font-sans font-medium tracking-wide pointer-events-auto transition-colors duration-300 ${
           isLightBackground ? 'text-[#1C1522]' : 'text-[#FAF4FF]'
-        }`}>
+        }`} style={{ fontSize: 'var(--text-label)' }}>
           {navLinks.map((item, i) => (
             <motion.a
               key={item.name}
@@ -176,8 +176,12 @@ export default function Navigation({ stage }: NavigationProps) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 + i * 0.1 }}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-white text-[36px] leading-none text-center font-bold tracking-tight"
-                  style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
+                  className="text-white text-center font-bold tracking-tight"
+                  style={{ 
+                    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+                    fontSize: 'var(--text-section)',
+                    lineHeight: 'var(--text-section-lh)'
+                  }}
                 >
                   {item.name}
                 </motion.a>

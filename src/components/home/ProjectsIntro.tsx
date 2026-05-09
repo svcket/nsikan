@@ -17,15 +17,16 @@ export default function ProjectsIntro() {
   return (
     <div 
       ref={targetRef}
-      className="relative w-full pt-[120px] pb-[120px] overflow-visible"
+      className="relative w-full overflow-visible"
+      style={{ paddingTop: 'var(--section-spacing)', paddingBottom: 'var(--section-spacing)' }}
     >
       <motion.div 
         style={{ opacity, y }}
         className="relative z-10 px-4 md:px-10 text-center"
       >
         <h2
-          className="font-serif italic text-[#1C1522] leading-[1.2] tracking-tight"
-          style={{ fontSize: 'clamp(48px, 8vw, 80px)' }}
+          className="font-serif italic text-[#1C1522] tracking-tight"
+          style={{ fontSize: 'var(--text-section)', lineHeight: 'var(--text-section-lh)' }}
         >
           Projects and
           <br />

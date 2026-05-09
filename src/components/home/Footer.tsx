@@ -40,7 +40,11 @@ export default function Footer() {
   };
 
   return (
-    <section id="footer" className="relative w-full bg-black pt-32 pb-10 md:pt-48 md:pb-10 px-4 md:px-10 overflow-hidden">
+    <section 
+      id="footer" 
+      className="relative w-full bg-black px-4 md:px-10 overflow-hidden"
+      style={{ paddingTop: 'var(--section-spacing)', paddingBottom: 'var(--space-b-c)' }}
+    >
       {/* Noise Texture */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.06] mix-blend-multiply"
@@ -55,10 +59,16 @@ export default function Footer() {
           
           {/* Left Content */}
           <div className="flex flex-col h-full">
-            <span className="font-sans font-medium text-[13px] tracking-[0.1em] text-white/40 uppercase mb-10">
+            <span 
+              className="font-sans font-medium tracking-[0.1em] text-white/40 uppercase"
+              style={{ fontSize: 'var(--text-label)', marginBottom: 'var(--space-s-b)' }}
+            >
               LET&apos;S TALK ABOUT WHAT IS NEXT!
             </span>
-            <h2 className="font-serif italic text-white text-[40px] md:text-[56px] leading-[1.1] max-w-[800px] mb-12 lg:mb-0">
+            <h2 
+              className="font-serif italic text-white max-w-[800px] mb-12 lg:mb-0"
+              style={{ fontSize: 'var(--text-section)', lineHeight: 'var(--text-section-lh)' }}
+            >
               Great products aren&apos;t just<br />
               about what you make - they&apos;re<br />
               about who you make it with.
@@ -69,8 +79,11 @@ export default function Footer() {
           <div className="bg-[#0A0A0A] border border-white/[0.08] p-10 w-full max-w-[580px] lg:ml-auto rounded-none">
             {status === 'success' ? (
               <div className="h-[300px] flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-700">
-                <h3 className="font-serif italic text-white text-[32px] mb-4">Thank You!</h3>
-                <p className="text-white/50 font-sans text-[15px] max-w-[300px]">
+                <h3 className="font-serif italic text-white text-[length:var(--text-section)] mb-4">Thank You!</h3>
+                <p 
+                  className="text-white/50 font-sans max-w-[300px]"
+                  style={{ fontSize: 'var(--text-body)', lineHeight: 'var(--text-body-lh)' }}
+                >
                   Your message has been received. I&apos;ll get back to you shortly.
                 </p>
                 <button 
@@ -140,7 +153,10 @@ export default function Footer() {
             </div>
           </div>
           
-          <span className="font-sans text-[13px] text-white/50 uppercase tracking-[0.1em] text-right">
+          <span 
+            className="font-sans text-white/50 uppercase tracking-[0.1em] text-right"
+            style={{ fontSize: 'var(--text-label)' }}
+          >
             © {currentYear} NSIKAN ETUKUDOH
           </span>
         </div>

@@ -367,18 +367,24 @@ export default function ProjectsSection() {
             <div className="flex flex-col">
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.tags?.map((tag: string) => (
-                  <span key={tag} className="text-[10px] tracking-widest uppercase opacity-40 font-sans px-2 py-1 border border-white/10 rounded-none">
+                  <span key={tag} className="text-[length:var(--text-label)] tracking-widest uppercase opacity-40 font-sans px-2 py-1 border border-white/10 rounded-none">
                     {tag}
                   </span>
                 ))}
               </div>
-              <h3 className="font-serif italic text-[32px] leading-[1.1] text-white mb-4">
+              <h3 
+                className="font-serif italic text-white"
+                style={{ fontSize: 'var(--text-section)', lineHeight: 'var(--text-section-lh)', marginBottom: 'var(--space-s-b)' }}
+              >
                 {project.title}
               </h3>
-              <p className="text-[16px] leading-[1.6] text-white/60 font-sans mb-6">
+              <p 
+                className="text-white/60 font-sans"
+                style={{ fontSize: 'var(--text-body)', lineHeight: 'var(--text-body-lh)', marginBottom: 'var(--space-b-c)' }}
+              >
                 {project.heroDescription}
               </p>
-              <div className="flex items-center gap-6 text-[12px] tracking-[0.08em] uppercase font-sans font-medium">
+              <div className="flex items-center gap-6 text-[length:var(--text-label)] tracking-[0.08em] uppercase font-sans font-medium">
                 <Link 
                   href={`/projects/${project.slug}`}
                   prefetch={true}

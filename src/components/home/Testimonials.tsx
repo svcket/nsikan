@@ -69,10 +69,13 @@ export default function Testimonials() {
         {/* Subtle texture/banding */}
         <div className="absolute inset-0 pointer-events-none opacity-20 bg-gradient-to-b from-transparent via-white/5 to-transparent overflow-hidden" />
 
-        <div className="relative z-10 w-full pt-20 md:pt-32 pb-20 px-4 md:px-10">
+        <div className="relative z-10 w-full px-4 md:px-10" style={{ paddingTop: 'var(--section-spacing)', paddingBottom: 'var(--section-spacing)' }}>
           {/* Header */}
-          <div className="text-center mb-[208px]">
-            <h2 className="font-serif italic text-white text-[56px] md:text-[80px] leading-[1.1] max-w-[800px] mx-auto tracking-tight">
+          <div className="text-center" style={{ marginBottom: 'var(--section-spacing)' }}>
+            <h2 
+              className="font-serif italic text-white max-w-[800px] mx-auto tracking-tight"
+              style={{ fontSize: 'var(--text-hero)', lineHeight: 'var(--text-hero-lh)' }}
+            >
               Don’t take<br />my word for it...
             </h2>
           </div>
@@ -90,14 +93,23 @@ export default function Testimonials() {
             <div className="flex flex-col space-y-[120px] pt-0 pb-20" style={{ width: 'min(322px, calc(100vw - 32px))' }}>
               {testimonials.map((t, i) => (
                 <div key={i} className="text-left">
-                  <p className="font-sans text-[17px] leading-[1.6] text-white/90 mb-10">
+                  <p 
+                    className="font-sans text-white/90"
+                    style={{ fontSize: 'var(--text-body)', lineHeight: 'var(--text-body-lh)', marginBottom: 'var(--space-h-s)' }}
+                  >
                     {t.quote}
                   </p>
                   <div className="space-y-1">
-                    <h4 className="font-serif italic text-[22px] text-white">
+                    <h4 
+                      className="font-serif italic text-white"
+                      style={{ fontSize: '22px' }}
+                    >
                       {t.author}
                     </h4>
-                    <p className="font-sans text-[13px] uppercase tracking-widest text-[#999999]">
+                    <p 
+                      className="font-sans uppercase tracking-widest text-[#999999]"
+                      style={{ fontSize: 'var(--text-label)' }}
+                    >
                       {t.role}
                     </p>
                   </div>

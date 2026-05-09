@@ -67,8 +67,11 @@ export default function HeroCarousel({ stage = 'ready' }: HeroCarouselProps) {
           transition={{ duration: 1.4, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
           className="absolute top-[16vh] flex flex-col items-center text-center px-4 z-20 pointer-events-none"
         >
-          {/* Headline (H1) - 80px */}
-          <h1 className="font-serif italic text-[clamp(48px,8vw,80px)] leading-[1.05] text-white tracking-tight">
+          {/* Headline (H1) */}
+          <h1 
+            className="font-serif italic text-white tracking-tight"
+            style={{ fontSize: 'var(--text-hero)', lineHeight: 'var(--text-hero-lh)' }}
+          >
             Senior Product Designer
             <br />
             and UI Engineer
@@ -83,10 +86,12 @@ export default function HeroCarousel({ stage = 'ready' }: HeroCarouselProps) {
             initial={{ opacity: 0, y: 10 }}
             animate={showContent ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1, delay: 1.2 }}
-            className="mt-[36px] text-[22px] text-white/60 font-sans tracking-tight"
+            className="text-white/60 font-sans tracking-tight"
             style={{ 
               fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
-              lineHeight: '1.5' 
+              lineHeight: 'var(--text-body-lh)',
+              fontSize: 'var(--text-body)',
+              marginTop: 'var(--space-h-s)'
             }}
           >
             I help teams turn complex product ideas into
