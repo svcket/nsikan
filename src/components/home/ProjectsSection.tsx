@@ -271,7 +271,12 @@ export default function ProjectsSection() {
                   borderRadius: '0px',
                 }}
               >
-                <div className="w-full relative">
+                <Link 
+                  href={`/projects/${project.slug}`}
+                  prefetch={true}
+                  onClick={() => setNavigatingTo(project.slug)}
+                  className="w-full relative block pointer-events-auto cursor-pointer"
+                >
                    {project.heroVisual?.video?.asset?.url ? (
                       <video 
                         src={project.heroVisual.video.asset.url} 
@@ -310,7 +315,7 @@ export default function ProjectsSection() {
                         />
                       </div>
                    ) : null}
-                </div>
+                </Link>
               </article>
             ))}
           </div>
@@ -334,7 +339,12 @@ export default function ProjectsSection() {
                 project.layout === 'mobile' ? 'w-[280px] h-auto' : 'w-full h-auto'
               }`}
             >
-              <div className="w-full relative">
+              <Link 
+                href={`/projects/${project.slug}`}
+                prefetch={true}
+                onClick={() => setNavigatingTo(project.slug)}
+                className="w-full relative block cursor-pointer"
+              >
                    {project.heroVisual?.video?.asset?.url ? (
                       <video 
                         src={project.heroVisual.video.asset.url} 
@@ -367,7 +377,7 @@ export default function ProjectsSection() {
                         />
                       </div>
                    ) : null}
-              </div>
+              </Link>
             </div>
             
             {/* Info Beneath */}

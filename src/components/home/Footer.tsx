@@ -104,7 +104,7 @@ export default function Footer() {
                     name="name"
                     required
                     placeholder="Enter your legal or nick name"
-                    className="w-full bg-transparent border border-white/10 px-6 py-5 text-white placeholder-white/20 focus:outline-none focus:border-white/30 transition-colors font-sans text-[15px] rounded-none"
+                    className="w-full bg-transparent border border-white/10 px-6 py-5 text-white placeholder-[#666666] focus:outline-none focus:border-white/30 transition-colors font-sans text-[15px] rounded-none"
                   />
                 </div>
                 <div>
@@ -113,7 +113,7 @@ export default function Footer() {
                     name="email"
                     required
                     placeholder="Enter your email address"
-                    className="w-full bg-transparent border border-white/10 px-6 py-5 text-white placeholder-white/20 focus:outline-none focus:border-white/30 transition-colors font-sans text-[15px] rounded-none"
+                    className="w-full bg-transparent border border-white/10 px-6 py-5 text-white placeholder-[#666666] focus:outline-none focus:border-white/30 transition-colors font-sans text-[15px] rounded-none"
                   />
                 </div>
                 <div>
@@ -122,7 +122,7 @@ export default function Footer() {
                     required
                     rows={5}
                     placeholder="Type your message here"
-                    className="w-full bg-transparent border border-white/10 px-6 py-5 text-white placeholder-white/20 focus:outline-none focus:border-white/30 transition-colors font-sans text-[15px] resize-none rounded-none"
+                    className="w-full bg-transparent border border-white/10 px-6 py-5 text-white placeholder-[#666666] focus:outline-none focus:border-white/30 transition-colors font-sans text-[15px] resize-none rounded-none"
                   />
                 </div>
                 <button 
