@@ -29,6 +29,7 @@ export default function FactsFocus() {
   return (
     <div ref={containerRef} className="relative w-full bg-black">
       <motion.section 
+        data-nav-theme="light"
         className="relative w-full bg-[#F9FEE7] px-[24px] md:px-[40px] overflow-hidden"
         style={{ 
           width, 
